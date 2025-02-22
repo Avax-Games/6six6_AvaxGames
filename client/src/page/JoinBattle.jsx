@@ -27,7 +27,7 @@ const JoinBattle = () => {
 
   return (
     <>
-      <h2 className={styles.joinHeadText}>Available Battles:</h2>
+      {/* <h2 className={styles.joinHeadText}>Available Battles:</h2> */}
 
       <div className={styles.joinContainer}>
         {gameData.pendingBattles.length

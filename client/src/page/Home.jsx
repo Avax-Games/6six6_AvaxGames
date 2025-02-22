@@ -67,12 +67,5 @@ const Home = () => {
 };
 
 export default PageHOC(
-  Home,
-  <>
-    Welcome to Avax Heroes <br /> a Web3 NFT Card Game
-  </>,
-  <>
-    Connect your wallet to start playing <br /> the ultimate Web3 Battle Card
-    Game
-  </>,
-);
+  Home
+)

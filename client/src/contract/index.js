@@ -1,4 +1,5 @@
 import contract from './AVAXHeroes.json';
 
-export const ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS;
+
+export const ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 export const { abi: ABI } = contract;
