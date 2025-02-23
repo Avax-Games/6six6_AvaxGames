@@ -6,6 +6,7 @@ import { Battleground, CreateBattle, Battle, Home, JoinBattle } from './page';
 import { OnboardModal } from './components';
 import { GlobalContextProvider } from './context';
 import './index.css';
+import Dashboard from './page/Dashboard';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/battle/:battleName" element={<Battle />} />
         <Route path="/create-battle" element={<CreateBattle />} />
         <Route path="/join-battle" element={<JoinBattle />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </GlobalContextProvider>
   </BrowserRouter>,

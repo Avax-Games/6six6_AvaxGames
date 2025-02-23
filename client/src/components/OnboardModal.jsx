@@ -68,6 +68,18 @@ const OnboardModal = () => {
           </>
         );
 
+      case 3:
+        return (
+          <>
+            <p className={styles.modalText}>
+              Oops, you don't have AVAX tokens in your account
+            </p>
+            <CustomButton
+              title="Grab some test tokens"
+              handleClick={() => window.open('https://faucet.avax.network/', '_blank')}
+            />
+          </>
+        );
 
       default:
         return <p className={styles.modalText}>Good to go!</p>;
