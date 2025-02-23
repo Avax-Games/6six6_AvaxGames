@@ -8,6 +8,8 @@ import CustomInput from './CustomInput';
 import CustomButton from './CustomButton';
 import ActionButton from './ActionButton';
 import OnboardModal from './OnboardModal';
+import LetterGlitch from './LetterGlitch';
+import CircularText from './CircularText';
 
 export {
   Card,
@@ -20,4 +22,6 @@ export {
   CustomButton,
   ActionButton,
   OnboardModal,
+  LetterGlitch,
+  CircularText,
 };

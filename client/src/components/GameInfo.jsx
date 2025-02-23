@@ -61,7 +61,6 @@ const GameInfo = () => {
         </div>
 
         <div className={`${styles.flexBetween} mt-10 gap-4 w-full`}>
-          <CustomButton title="Change Battleground" handleClick={() => navigate('/battleground')} />
           <CustomButton title="Exit Battle" handleClick={() => handleBattleExit()} />
         </div>
       </div>

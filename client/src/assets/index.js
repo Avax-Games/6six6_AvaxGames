@@ -1,6 +1,6 @@
 // backgrounds
 import saiman from './background/saiman.jpg';
-import astral from './background/astral.jpg';
+import bgDqn from './background/bgDqn.jpeg';
 import eoaalien from './background/eoaalien.jpg';
 import panight from './background/panight.jpg';
 import heroImg from './background/hero-img.jpg';
@@ -90,7 +90,7 @@ export const allCards = [
 
 export {
   saiman,
-  astral,
+  bgDqn,
   eoaalien,
   panight,
   heroImg,
@@ -143,7 +143,7 @@ export {
 
 export const battlegrounds = [
   { id: 'bg-saiman', image: saiman, name: 'Saiman' },
-  { id: 'bg-astral', image: astral, name: 'Astral' },
+  { id: 'bg-bgDqn', image: bgDqn, name: 'bgDqn' },
   { id: 'bg-eoaalien', image: eoaalien, name: 'Eoaalien' },
   { id: 'bg-panight', image: panight, name: 'Panight' },
 ];

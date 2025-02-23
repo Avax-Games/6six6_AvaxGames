@@ -261,3 +261,126 @@ body {
     transform: rotate(45deg) scale(0.25) translateZ(0);
   }
 }
+
+/* Add to your existing styles */
+.custom-class {
+  filter: drop-shadow(0 0 0.75rem rgba(255, 255, 255, 0.2));
+}
+
+/* Add any missing styles from styles.js */
+.hocContainer {
+  @apply min-h-screen flex flex-col items-center justify-center bg-black;
+}
+
+/* Neon effects */
+.shadow-neon {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2),
+              0 0 20px rgba(255, 255, 255, 0.1),
+              0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.shadow-neon-red {
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3),
+              0 0 20px rgba(255, 0, 0, 0.2),
+              0 0 30px rgba(255, 0, 0, 0.1);
+}
+
+/* Custom input styling */
+.neon-input input {
+  @apply bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white w-full;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.neon-input input:focus {
+  @apply border-red-500 outline-none;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2),
+              0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+.neon-input label {
+  @apply text-white/80 text-sm mb-2 block;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Animation for text gradient */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+/* Terminal styling */
+.terminal-container {
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  animation: terminal-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes terminal-glow {
+  from {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+  }
+}
+
+.typing-animation {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2s steps(40, end);
+}
+
+.typing-animation-2 {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2s steps(40, end);
+  animation-delay: 2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+/* Update the cursor styling */
+.terminal-body input {
+  caret-color: transparent; /* Hide the default cursor */
+}
+
+.terminal-body .flex {
+  position: relative;
+}
+
+.terminal-body .flex::after {
+  content: '█';
+  color: #ef4444;
+  animation: blink 1s step-end infinite;
+  position: absolute;
+  left: calc(100% - 10px); /* Position after the text */
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+}
+
+.terminal-body .flex.typing::after {
+  opacity: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

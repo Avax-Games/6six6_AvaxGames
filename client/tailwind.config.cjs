@@ -10,7 +10,7 @@ module.exports = {
         siteWhite: '#9eacc7',
       },
       backgroundImage: {
-        astral: "url('/src/assets/background/astral.jpg')",
+        bgDqn: "url('/src/assets/background/bgDqn.jpeg')",
         saiman: "url('/src/assets/background/saiman.jpg')",
         eoaalien: "url('/src/assets/background/eoaalien.jpg')",
         panight: "url('/src/assets/background/panight.jpg')",
@@ -26,6 +26,7 @@ module.exports = {
         'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         fadeIn: 'fadeIn 1s ease-in',
         slideIn: 'slideIn 1s ease-out',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         glitch: {
@@ -35,8 +36,12 @@ module.exports = {
           '75%': { transform: 'translateX(5%) skewX(-1deg)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 50px rgba(255,0,0,0.3)' },
-          '100%': { boxShadow: '0 0 100px rgba(255,0,0,0.6)' }
+          '0%': {
+            filter: 'drop-shadow(0 0 0.5rem rgba(255, 0, 0, 0.3))',
+          },
+          '100%': {
+            filter: 'drop-shadow(0 0 1rem rgba(255, 0, 0, 0.6))',
+          },
         },
         fadeIn: {
           '0%': { opacity: '0' },
@@ -46,7 +51,11 @@ module.exports = {
           '0%': { transform: 'translateX(-100%)', opacity: '0' },
           '100%': { transform: 'translateX(0)', opacity: '1' },
         },
-      }
+      },
+      boxShadow: {
+        'neon': '0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.1)',
+        'neon-red': '0 0 10px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.2), 0 0 30px rgba(255, 0, 0, 0.1)',
+      },
     },
   },
   plugins: [],

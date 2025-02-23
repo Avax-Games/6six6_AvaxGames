@@ -57,6 +57,4 @@ const CreateBattle = () => {
 
 export default PageHOC(
   CreateBattle,
-  <>Create <br /> a new Battle</>,
-  <>Create your own battle and wait for other players to join you</>,
 );

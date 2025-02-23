@@ -12,14 +12,6 @@ const GameLoad = () => {
 
   return (
     <div className={`${styles.flexBetween} ${styles.gameLoadContainer}`}>
-      <div className={styles.gameLoadBtnBox}>
-        <CustomButton
-          title="Choose Battleground"
-          handleClick={() => navigate('/battleground')}
-          restStyles="mt-6"
-        />
-      </div>
-
       <div className={`flex-1 ${styles.flexCenter} flex-col`}>
         <h1 className={`${styles.headText} text-center`}>
           Waiting for a <br /> worthy opponent...

@@ -11,7 +11,7 @@ const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState('');
-  const [battleGround, setBattleGround] = useState('bg-astral');
+  const [battleGround, setBattleGround] = useState('bg-bgDqn');
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
   const [step, setStep] = useState(1);
