@@ -321,6 +321,45 @@ body {
   animation: terminal-glow 2s ease-in-out infinite alternate;
 }
 
+.terminal-input-container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.terminal-prompt {
+  color: #ef4444;
+  white-space: nowrap;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ef4444;
+  font-family: inherit;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  caret-color: #ef4444;
+  caret-shape: block;
+}
+
+/* Remove all previous cursor styles */
+input {
+  caret-color: transparent;
+}
+
+/* Remove any previous cursor overrides */
+@supports (-webkit-text-emphasis: none) {
+  input {
+    -webkit-text-emphasis: none;
+    -webkit-text-fill-color: #ef4444;
+  }
+}
+
 @keyframes terminal-glow {
   from {
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
@@ -357,30 +396,81 @@ body {
 }
 
 /* Update the cursor styling */
-.terminal-body input {
-  caret-color: transparent; /* Hide the default cursor */
-}
-
-.terminal-body .flex {
+.terminal-body {
   position: relative;
 }
 
-.terminal-body .flex::after {
-  content: '█';
+.terminal-body input {
+  caret-color: #ef4444; /* Show the cursor */
+  caret-shape: underscore; /* Make cursor block-shaped */
+  background: transparent;
   color: #ef4444;
-  animation: blink 1s step-end infinite;
-  position: absolute;
-  left: calc(100% - 10px); /* Position after the text */
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 1;
+  position: relative;
 }
 
-.terminal-body .flex.typing::after {
+/* Override the cursor width using a color-profile hack */
+@supports (-webkit-text-emphasis: none) {
+  .terminal-body input {
+    text-indent: 1px;
+    -webkit-text-emphasis: none;
+    -webkit-text-fill-color: #ef4444;
+  }
+}
+
+/* Terminal Input styling */
+.terminal-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.terminal-text {
+  color: #ef4444;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  white-space: pre;
+  display: inline-block;
+}
+
+.terminal-cursor {
+  background-color: #ef4444;
+  color: #000;
+  animation: blink 1s step-start infinite;
+}
+
+.terminal-hidden-input {
+  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: text;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* Adjust the input container */
+.flex-1.relative {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.2em;
+}
+
+/* Adjust the text and cursor container */
+.font-mono.text-red-500 {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.2em;
+  line-height: 1.2em;
+}
+
+/* Remove any previous styles that might interfere */
+.terminal-input-container > * {
+  margin-top: 0;
+  margin-bottom: 0;
 }

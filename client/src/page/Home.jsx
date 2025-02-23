@@ -7,6 +7,7 @@ import {
   CircularText,
   LetterGlitch,
   GameLoad,
+  GameTerminal,
 } from "../components";
 import { useGlobalContext } from "../context";
 import styles from "../styles";
@@ -184,49 +185,31 @@ const Home = () => {
           />
 
           {showPrompt && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="terminal-container w-[80%] max-w-2xl bg-black/90 rounded-lg border border-red-500/30 p-8 font-mono">
-                <div className="terminal-body text-red-500">
-                  {!isExistingPlayer ? (
-                    <>
-                      <p className="mb-4 typing-animation">[System]: Initializing player registration...</p>
-                      <p className="mb-4 typing-animation-2">[System]: Please identify yourself, warrior.</p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="mb-4 typing-animation">[System]: Battle System Initialized</p>
-                      <p className="mb-4 typing-animation-2">[System]: Available commands:</p>
-                      <p className="mb-2 typing-animation-3">[System]: /create &lt;battle_name&gt; - Create a new battle</p>
-                      <p className="mb-2 typing-animation-3">[System]: /show - Show available battles</p>
-                      <p className="mb-4 typing-animation-3">[System]: /join &lt;battle_name&gt; - Join an existing battle</p>
-                      
-                      {availableBattles.length > 0 && (
-                        <>
-                          <p className="mb-2 typing-animation-4">[System]: Available Battles:</p>
-                          {availableBattles.map((battle, index) => (
-                            <p key={battle.name} className={`mb-1 typing-animation-${index + 5}`}>
-                              [System]: - {battle.name}
-                            </p>
-                          ))}
-                        </>
-                      )}
-                    </>
-                  )}
-
-                  <div className={`flex items-center gap-2 ${isTyping ? 'typing' : ''}`}>
-                    <span className="text-red-500">root@avax-gods:~$</span>
-                    <input
-                      type="text"
-                      value={terminalText}
-                      onChange={handleChange}
-                      onKeyPress={handleKeyPress}
-                      className="flex-1 bg-transparent border-none outline-none text-red-500"
-                      autoFocus
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <GameTerminal
+              onCommand={handleCommand}
+              welcomeMessage={!isExistingPlayer ? "Initializing player registration..." : "Battle System Initialized"}
+              isTyping={isTyping}
+              terminalText={terminalText}
+              handleChange={handleChange}
+              handleKeyPress={handleKeyPress}
+              additionalOutput={
+                !isExistingPlayer 
+                  ? ["Please identify yourself, warrior."]
+                  : [
+                      "Available commands:",
+                      "/create <battle_name> - Create a new battle",
+                      "/show - Show available battles",
+                      "/join <battle_name> - Join an existing battle",
+                      ...(availableBattles.length > 0 
+                        ? [
+                            "Available Battles:",
+                            ...availableBattles.map(battle => `- ${battle.name}`)
+                          ] 
+                        : []
+                      )
+                    ]
+              }
+            />
           )}
         </div>
       </div>

@@ -10,6 +10,7 @@ import ActionButton from './ActionButton';
 import OnboardModal from './OnboardModal';
 import LetterGlitch from './LetterGlitch';
 import CircularText from './CircularText';
+import GameTerminal from './GameTerminal';
 
 export {
   Card,
@@ -24,4 +25,5 @@ export {
   OnboardModal,
   LetterGlitch,
   CircularText,
+  GameTerminal,
 };
