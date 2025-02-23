@@ -6,18 +6,21 @@ import {
   CustomInput,
   CircularText,
   LetterGlitch,
+  GameLoad,
 } from "../components";
 import { useGlobalContext } from "../context";
 import styles from "../styles";
 
 const Home = () => {
-  const { contract, walletAddress, gameData, setShowAlert, setErrorMessage } =
+  const { contract, walletAddress, gameData, setShowAlert, setErrorMessage, setBattleName } =
     useGlobalContext();
   const [playerName, setPlayerName] = useState("");
   const [terminalText, setTerminalText] = useState("");
   const [showPrompt, setShowPrompt] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [isExistingPlayer, setIsExistingPlayer] = useState(false);
+  const [availableBattles, setAvailableBattles] = useState([]);
+  const [waitBattle, setWaitBattle] = useState(false);
   const navigate = useNavigate();
 
   const handleHover = () => {
@@ -28,27 +31,104 @@ const Home = () => {
     return () => clearTimeout(timer);
   };
 
-  const handleKeyPress = async (e) => {
-    if (e.key === 'Enter' && terminalText.trim()) {
-      setShowPrompt(false);
-      setPlayerName(terminalText);
+  const handleCommand = async (command) => {
+    if (!isExistingPlayer) {
+      // Handle player registration
       try {
         const playerExists = await contract.isPlayer(walletAddress);
         if (!playerExists) {
-          await contract.registerPlayer(terminalText, terminalText, {
+          await contract.registerPlayer(command, command, {
             gasLimit: 500000,
           });
           setShowAlert({
             status: true,
             type: "info",
-            message: `${terminalText} is being summoned!`,
+            message: `${command} is being summoned!`,
           });
-          setTimeout(() => navigate("/create-battle"), 8000);
+          setPlayerName(command);
+          setTimeout(() => setIsExistingPlayer(true), 8000);
         }
       } catch (error) {
         setErrorMessage(error);
-        setShowPrompt(true);
       }
+      return;
+    }
+
+    // Handle battle commands
+    const parts = command.split(' ');
+    const action = parts[0].toLowerCase();
+    const battleName = parts.slice(1).join(' ');
+
+    switch(action) {
+      case '/create':
+        if (!battleName) {
+          setErrorMessage('Please provide a battle name');
+          return;
+        }
+        try {
+          setBattleName(battleName);
+          await contract.createBattle(battleName);
+          setWaitBattle(true);
+        } catch (error) {
+          setErrorMessage(error);
+        }
+        break;
+
+      case '/show':
+        try {
+          const battles = await contract.getAllBattles();
+          setAvailableBattles(battles.filter(battle => battle.battleStatus === 0));
+        } catch (error) {
+          setErrorMessage(error);
+        }
+        break;
+
+      case '/join':
+        if (!battleName) {
+          setErrorMessage('Please provide a battle name');
+          return;
+        }
+        try {
+          const battles = await contract.getAllBattles();
+          const battle = battles.find(b => b.name === battleName);
+          
+          if (!battle) {
+            setErrorMessage(`Battle "${battleName}" not found`);
+            return;
+          }
+          if (battle.battleStatus !== 0) {
+            setErrorMessage(`Battle "${battleName}" is already full`);
+            return;
+          }
+
+          await contract.joinBattle(battleName);
+          
+          setShowAlert({
+            status: true,
+            type: 'success',
+            message: `Joining ${battleName}...`
+          });
+
+          setTimeout(() => {
+            navigate(`/battle/${battleName}`);
+          }, 1000);
+
+        } catch (error) {
+          setErrorMessage(error);
+        }
+        break;
+
+      default:
+        if (isExistingPlayer) {
+          setErrorMessage('Unknown command. Available commands: /create, /show, /join');
+        }
+    }
+  };
+
+  const handleKeyPress = async (e) => {
+    if (e.key === 'Enter' && terminalText.trim()) {
+      await handleCommand(terminalText.trim());
+      setTerminalText('');
     }
   };
 
@@ -66,8 +146,6 @@ const Home = () => {
 
         if (playerExists && playerTokenExists) {
           setIsExistingPlayer(true);
-          setTerminalText("Welcome back, warrior...");
-          setTimeout(() => navigate("/create-battle"), 5000);
         }
       }
     };
@@ -76,13 +154,15 @@ const Home = () => {
   }, [contract, walletAddress]);
 
   useEffect(() => {
-    if (gameData.activeBattle) {
+    if (gameData?.activeBattle?.battleStatus === 1) {
       navigate(`/battle/${gameData.activeBattle.name}`);
     }
   }, [gameData]);
 
   return (
     <div className={`${styles.hocContainer} relative min-h-screen bg-black`}>
+      {waitBattle && <GameLoad />}
+      
       <div
         onMouseEnter={handleHover}
         className="absolute top-2 right-2 scale-50 z-30 animate-pulse"
@@ -107,26 +187,43 @@ const Home = () => {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="terminal-container w-[80%] max-w-2xl bg-black/90 rounded-lg border border-red-500/30 p-8 font-mono">
                 <div className="terminal-body text-red-500">
-                  <p className="mb-4 typing-animation">[System]: Initializing player registration...</p>
-                  {isExistingPlayer ? (
-                    <p className="mb-4 typing-animation-2">[System]: Welcome back, warrior. Redirecting to battle...</p>
+                  {!isExistingPlayer ? (
+                    <>
+                      <p className="mb-4 typing-animation">[System]: Initializing player registration...</p>
+                      <p className="mb-4 typing-animation-2">[System]: Please identify yourself, warrior.</p>
+                    </>
                   ) : (
                     <>
-                      <p className="mb-4 typing-animation-2">[System]: Please identify yourself, warrior.</p>
-                      <div className={`flex items-center gap-2 ${isTyping ? 'typing' : ''}`}>
-                        <span className="text-red-500">root@avax-gods:~$</span>
-                        <input
-                          type="text"
-                          value={terminalText}
-                          onChange={handleChange}
-                          onKeyPress={handleKeyPress}
-                          className="flex-1 bg-transparent border-none outline-none text-red-500"
-                          autoFocus
-                          disabled={isExistingPlayer}
-                        />
-                      </div>
+                      <p className="mb-4 typing-animation">[System]: Battle System Initialized</p>
+                      <p className="mb-4 typing-animation-2">[System]: Available commands:</p>
+                      <p className="mb-2 typing-animation-3">[System]: /create &lt;battle_name&gt; - Create a new battle</p>
+                      <p className="mb-2 typing-animation-3">[System]: /show - Show available battles</p>
+                      <p className="mb-4 typing-animation-3">[System]: /join &lt;battle_name&gt; - Join an existing battle</p>
+                      
+                      {availableBattles.length > 0 && (
+                        <>
+                          <p className="mb-2 typing-animation-4">[System]: Available Battles:</p>
+                          {availableBattles.map((battle, index) => (
+                            <p key={battle.name} className={`mb-1 typing-animation-${index + 5}`}>
+                              [System]: - {battle.name}
+                            </p>
+                          ))}
+                        </>
+                      )}
                     </>
                   )}
+
+                  <div className={`flex items-center gap-2 ${isTyping ? 'typing' : ''}`}>
+                    <span className="text-red-500">root@avax-gods:~$</span>
+                    <input
+                      type="text"
+                      value={terminalText}
+                      onChange={handleChange}
+                      onKeyPress={handleKeyPress}
+                      className="flex-1 bg-transparent border-none outline-none text-red-500"
+                      autoFocus
+                    />
+                  </div>
                 </div>
               </div>
             </div>
