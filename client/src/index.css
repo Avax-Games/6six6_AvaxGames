@@ -319,17 +319,20 @@ body {
 .terminal-container {
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
   animation: terminal-glow 2s ease-in-out infinite alternate;
+  overflow: hidden;
 }
 
 .terminal-input-container {
   display: flex;
   align-items: center;
   gap: 2px;
+  max-width: 100%;
 }
 
 .terminal-prompt {
   color: #ef4444;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .terminal-input {
@@ -459,6 +462,7 @@ input {
   display: inline-flex;
   align-items: center;
   min-height: 1.2em;
+  overflow: hidden;
 }
 
 /* Adjust the text and cursor container */
@@ -467,6 +471,8 @@ input {
   align-items: center;
   min-height: 1.2em;
   line-height: 1.2em;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* Remove any previous styles that might interfere */
