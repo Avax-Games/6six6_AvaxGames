@@ -24,7 +24,6 @@ const GameTerminal = ({
   // Handle terminal input
   const handleTerminalInput = (e) => {
     if (e.key === 'Enter' && terminalText.trim()) {
-      // Add command to history
       setCommandHistory(prev => [...prev, { 
         type: 'command', 
         content: terminalText.trim() 
@@ -32,16 +31,18 @@ const GameTerminal = ({
       
       handleKeyPress(e);
 
-      // Auto scroll
-      if (terminalRef.current) {
-        terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-      }
+      // Scroll to bottom after command
+      setTimeout(() => {
+        if (terminalRef.current) {
+          terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+        }
+      }, 50);
     } else {
       handleKeyPress(e);
     }
   };
 
-  // Handle additional output
+  // Handle additional output and auto-scroll
   useEffect(() => {
     if (additionalOutput?.length > 0) {
       setCommandHistory(prev => [...prev, { 
@@ -49,12 +50,21 @@ const GameTerminal = ({
         content: additionalOutput 
       }]);
 
-      // Auto scroll
-      if (terminalRef.current) {
-        terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-      }
+      // Scroll to bottom after output
+      setTimeout(() => {
+        if (terminalRef.current) {
+          terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+        }
+      }, 50);
     }
   }, [additionalOutput]);
+
+  // Initial scroll to bottom
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, []);
 
   return (
     <div className="absolute inset-0 flex items-center justify-start pl-8">
@@ -68,10 +78,15 @@ const GameTerminal = ({
         <div 
           ref={terminalRef}
           className="mt-4 h-[60vh] overflow-y-auto scrollbar-hide"
+          style={{
+            msOverflowStyle: 'none',  /* IE and Edge */
+            scrollbarWidth: 'none',   /* Firefox */
+            WebkitOverflowScrolling: 'touch'
+          }}
         >
           {/* Welcome Message */}
           <div className="flex">
-            <span className="text-red-500 w-[140px]">[System]: </span>
+            <span className="text-red-500 w-[120px]">[System]: </span>
             <span className="text-red-300">{welcomeMessage}</span>
           </div>
 
