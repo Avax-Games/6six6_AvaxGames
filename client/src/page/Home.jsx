@@ -212,7 +212,8 @@ const Home = () => {
               onCommand={handleCommand}
               welcomeMessage={!isExistingPlayer 
                 ? "Identify yourself, warrior..." 
-                : `Welcome back, ${playerName}.\nType /help to view available commands.`}
+                : `Welcome back, ${playerName}. 
+                Type /help to view available commands.`}
               isTyping={isTyping}
               terminalText={terminalText}
               handleChange={handleChange}

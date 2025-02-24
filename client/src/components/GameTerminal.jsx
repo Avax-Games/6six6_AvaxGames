@@ -10,6 +10,7 @@ const GameTerminal = ({
   const [cursorVisible, setCursorVisible] = useState(true);
   const [commandHistory, setCommandHistory] = useState([]);
   const terminalRef = useRef(null);
+  const inputRef = useRef(null);
 
   // Cursor blink
   useEffect(() => {
@@ -44,9 +45,19 @@ const GameTerminal = ({
     }, 50);
   };
 
+  // Focus input when clicking anywhere in terminal
+  const handleTerminalClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
     <div className="absolute inset-0 flex items-center justify-start pl-8">
-      <div className="w-[80%] max-w-3xl bg-black/90 rounded-lg border border-red-500/30 p-6 font-mono">
+      <div 
+        className="w-[80%] max-w-3xl bg-black/90 rounded-lg border border-red-500/30 p-6 font-mono cursor-text"
+        onClick={handleTerminalClick}
+      >
         <div className="text-red-500/70 text-sm pb-4 border-b border-red-500/20">
           [Terminal Session - {new Date().toLocaleTimeString()}]
         </div>
@@ -91,6 +102,7 @@ const GameTerminal = ({
                 />
               </span>
               <input
+                ref={inputRef}
                 type="text"
                 value={terminalText}
                 onChange={handleChange}
