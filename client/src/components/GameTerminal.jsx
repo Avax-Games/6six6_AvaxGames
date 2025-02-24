@@ -29,7 +29,7 @@ const GameTerminal = ({
     <div className="absolute inset-0 flex items-center justify-start pl-8">
       <div className="terminal-container w-[80%] max-w-2xl bg-black/90 rounded-lg border border-red-500/30 p-8 font-mono">
         <div className="terminal-body text-red-500">
-          <div className="mb-4 overflow-y-auto max-h-[200px]">
+          <div className="mb-4 overflow-y-auto max-h-[200px] terminal-scrollable">
             <p className="typing-animation">[System]: {welcomeMessage}</p>
             {additionalOutput.map((output, index) => (
               <p key={index} className={`mb-4 typing-animation-${index + 2}`}>[System]: {output}</p>

@@ -322,6 +322,16 @@ body {
   overflow: hidden;
 }
 
+/* Add custom scrollbar styling for terminal */
+.terminal-scrollable {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.terminal-scrollable::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
 .terminal-input-container {
   display: flex;
   align-items: center;
