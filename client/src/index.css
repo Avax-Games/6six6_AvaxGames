@@ -319,13 +319,17 @@ body {
 .terminal-container {
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
   animation: terminal-glow 2s ease-in-out infinite alternate;
-  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.5s ease;
+  transform-origin: center;
 }
 
 /* Add custom scrollbar styling for terminal */
 .terminal-scrollable {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  padding-right: 10px;
 }
 
 .terminal-scrollable::-webkit-scrollbar {
@@ -343,6 +347,7 @@ body {
   color: #ef4444;
   white-space: nowrap;
   flex-shrink: 0;
+  text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
 }
 
 /* Keep existing cursor animation */
@@ -359,35 +364,41 @@ body {
   }
 }
 
+.typing-animation-clean {
+  display: inline-block;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .typing-animation {
-  overflow: hidden;
-  white-space: nowrap;
-  animation: typing 2s steps(40, end);
+  display: inline-block;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .typing-animation-2 {
-  overflow: hidden;
-  white-space: nowrap;
-  animation: typing 2s steps(40, end);
-  animation-delay: 2s;
+  display: inline-block;
   opacity: 0;
-  animation-fill-mode: forwards;
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-    opacity: 0;
-  }
-  to {
-    width: 100%;
-    opacity: 1;
-  }
+  animation: fadeIn 0.5s ease forwards;
+  animation-delay: 0.2s;
 }
 
 /* Update the cursor styling */
 .terminal-body {
   position: relative;
+  text-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .terminal-body input {
@@ -432,4 +443,32 @@ body {
 .terminal-input-container > * {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+/* Terminal styling updates */
+.terminal-line {
+  line-height: 1.5;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  margin-bottom: 0.25rem;
+}
+
+.terminal-header {
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Update terminal container styles */
+.terminal-container {
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  animation: terminal-glow 2s ease-in-out infinite alternate;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Improve terminal text readability */
+.terminal-body {
+  text-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
+  letter-spacing: 0.5px;
 }

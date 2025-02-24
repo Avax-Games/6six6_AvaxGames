@@ -22,7 +22,41 @@ const Home = () => {
   const [isExistingPlayer, setIsExistingPlayer] = useState(false);
   const [availableBattles, setAvailableBattles] = useState([]);
   const [waitBattle, setWaitBattle] = useState(false);
+  const [additionalOutput, setAdditionalOutput] = useState([]);
   const navigate = useNavigate();
+
+  const commandHelp = {
+    help: {
+      description: "Show available commands or get detailed help for a specific command",
+      usage: "/help [command]",
+      examples: [
+        "/help - List all available commands",
+        "/help create - Show detailed help for create command"
+      ]
+    },
+    create: {
+      description: "Create a new battle room",
+      usage: "/create <battle_name>",
+      examples: [
+        "/create dragon_lair",
+        "/create mystic_arena"
+      ]
+    },
+    show: {
+      description: "Display all available battle rooms",
+      usage: "/show",
+      examples: [
+        "/show"
+      ]
+    },
+    join: {
+      description: "Join an existing battle room",
+      usage: "/join <battle_name>",
+      examples: [
+        "/join dragon_lair"
+      ]
+    }
+  };
 
   const handleHover = () => {
     const timer = setTimeout(() => {
@@ -55,17 +89,45 @@ const Home = () => {
       return;
     }
 
-    // Handle battle commands
     const parts = command.split(' ');
     const action = parts[0].toLowerCase();
-    const battleName = parts.slice(1).join(' ');
+    const args = parts.slice(1);
 
     switch(action) {
+      case '/help':
+        if (args.length === 0) {
+          // Show all available commands
+          return setAdditionalOutput([
+            "Available commands:",
+            ...Object.keys(commandHelp).map(cmd => `/${cmd} - ${commandHelp[cmd].description}`),
+            "",
+            "Type /help <command> for detailed usage"
+          ]);
+        } else {
+          // Show detailed help for specific command
+          const requestedCmd = args[0].replace('/', '');
+          const helpInfo = commandHelp[requestedCmd];
+          
+          if (!helpInfo) {
+            setErrorMessage(`Unknown command: ${requestedCmd}`);
+            return;
+          }
+
+          return setAdditionalOutput([
+            `Command: /${requestedCmd}`,
+            `Description: ${helpInfo.description}`,
+            `Usage: ${helpInfo.usage}`,
+            "Examples:",
+            ...helpInfo.examples
+          ]);
+        }
+
       case '/create':
-        if (!battleName) {
-          setErrorMessage('Please provide a battle name');
+        if (args.length === 0) {
+          setErrorMessage('Usage: /create <battle_name>');
           return;
         }
+        const battleName = args.join(' ');
         try {
           setBattleName(battleName);
           await contract.createBattle(battleName);
@@ -78,40 +140,50 @@ const Home = () => {
       case '/show':
         try {
           const battles = await contract.getAllBattles();
-          setAvailableBattles(battles.filter(battle => battle.battleStatus === 0));
+          const availableBattles = battles.filter(battle => battle.battleStatus === 0);
+          
+          if (availableBattles.length === 0) {
+            setAdditionalOutput(["No battles available. Create one using /create <battle_name>"]);
+          } else {
+            setAdditionalOutput([
+              "Available Battles:",
+              ...availableBattles.map(battle => `- ${battle.name}`)
+            ]);
+          }
         } catch (error) {
           setErrorMessage(error);
         }
         break;
 
       case '/join':
-        if (!battleName) {
-          setErrorMessage('Please provide a battle name');
+        if (args.length === 0) {
+          setErrorMessage('Usage: /join <battle_name>');
           return;
         }
+        const joinBattleName = args.join(' ');
         try {
           const battles = await contract.getAllBattles();
-          const battle = battles.find(b => b.name === battleName);
+          const battle = battles.find(b => b.name === joinBattleName);
           
           if (!battle) {
-            setErrorMessage(`Battle "${battleName}" not found`);
+            setErrorMessage(`Battle "${joinBattleName}" not found`);
             return;
           }
           if (battle.battleStatus !== 0) {
-            setErrorMessage(`Battle "${battleName}" is already full`);
+            setErrorMessage(`Battle "${joinBattleName}" is already full`);
             return;
           }
 
-          await contract.joinBattle(battleName);
+          await contract.joinBattle(joinBattleName);
           
           setShowAlert({
             status: true,
             type: 'success',
-            message: `Joining ${battleName}...`
+            message: `Joining ${joinBattleName}...`
           });
 
           setTimeout(() => {
-            navigate(`/battle/${battleName}`);
+            navigate(`/battle/${joinBattleName}`);
           }, 1000);
 
         } catch (error) {
@@ -120,9 +192,7 @@ const Home = () => {
         break;
 
       default:
-        if (isExistingPlayer) {
-          setErrorMessage('Unknown command. Available commands: /create, /show, /join');
-        }
+        setErrorMessage('Unknown command. Type /help to see available commands');
     }
   };
 
@@ -146,6 +216,10 @@ const Home = () => {
         const playerTokenExists = await contract.isPlayerToken(walletAddress);
 
         if (playerExists && playerTokenExists) {
+          // Get player name from contract
+          const player = await contract.getPlayer(walletAddress);
+          console.log(player);
+          setPlayerName(player.playerName); // Set the player name
           setIsExistingPlayer(true);
         }
       }
@@ -187,28 +261,14 @@ const Home = () => {
           {showPrompt && (
             <GameTerminal
               onCommand={handleCommand}
-              welcomeMessage={!isExistingPlayer ? "Initializing player registration..." : "Battle System Initialized"}
+              welcomeMessage={!isExistingPlayer 
+                ? "Initializing player registration..." 
+                : `Welcome back, ${playerName}.\nType /help to view available commands.`}
               isTyping={isTyping}
               terminalText={terminalText}
               handleChange={handleChange}
               handleKeyPress={handleKeyPress}
-              additionalOutput={
-                !isExistingPlayer 
-                  ? ["Identify yourself, warrior."]
-                  : [
-                      "Available commands:",
-                      "/create <battle_name> - Create a new battle",
-                      "/show - Show available battles",
-                      "/join <battle_name> - Join an existing battle",
-                      ...(availableBattles.length > 0 
-                        ? [
-                            "Available Battles:",
-                            ...availableBattles.map(battle => `- ${battle.name}`)
-                          ] 
-                        : []
-                      )
-                    ]
-              }
+              additionalOutput={!isExistingPlayer ? ["Identify yourself, warrior."] : []}
             />
           )}
         </div>
