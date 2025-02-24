@@ -60,7 +60,6 @@ const Home = () => {
         case '/help':
           setAdditionalOutput([
             "Available Commands:",
-            "/help   - Show available commands",
             "/create - Create a new battle room",
             "/show   - Display all available battle rooms",
             "/join   - Join an existing battle room",
@@ -75,13 +74,17 @@ const Home = () => {
           try {
             const battles = await contract.getAllBattles();
             const availableBattles = battles.filter(battle => battle.battleStatus === 0);
+            console.log(availableBattles);
             
-            if (availableBattles.length === 0) {
+            // Skip the 0th index and check remaining battles
+            const displayBattles = availableBattles.slice(1);
+            
+            if (displayBattles.length === 0) {
               setAdditionalOutput(["No battles available. Create one using /create <battle_name>"]);
             } else {
               setAdditionalOutput([
                 "Available Battles:",
-                ...availableBattles.map(battle => `- ${battle.name}`)
+                ...displayBattles.map(battle => `- ${battle.name}`)
               ]);
             }
           } catch (error) {
