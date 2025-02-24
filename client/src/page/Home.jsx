@@ -194,7 +194,7 @@ const Home = () => {
               handleKeyPress={handleKeyPress}
               additionalOutput={
                 !isExistingPlayer 
-                  ? ["Please identify yourself, warrior."]
+                  ? ["Identify yourself, warrior."]
                   : [
                       "Available commands:",
                       "/create <battle_name> - Create a new battle",

@@ -20,7 +20,7 @@ const GameTerminal = ({
   }, []);
 
   const handleKeyDown = (e) => {
-    if (e.key === ' ' && (!terminalText || terminalText.length === 0)) {
+    if (e.key === ' ') {
       e.preventDefault();
     }
   };
@@ -36,7 +36,7 @@ const GameTerminal = ({
             ))}
           </div>
           <div className={`terminal-input-container ${isTyping ? 'typing' : ''}`}>
-            <span className="terminal-prompt mr-1">root@avax-gods:~$</span>
+            <span className="terminal-prompt mr-1">root@6six6:~$</span>
             <div className="flex-1 relative overflow-hidden">
               <span className="font-mono text-red-500 whitespace-nowrap overflow-hidden">
                 {terminalText}
