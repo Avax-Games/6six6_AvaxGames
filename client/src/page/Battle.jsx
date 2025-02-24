@@ -1,9 +1,10 @@
 /* eslint-disable prefer-destructuring */
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Terminal } from 'lucide-react';
 
 import styles from '../styles';
-import { ActionButton, Alert, Card, GameInfo, PlayerInfo, LetterGlitch } from '../components';
+import { ActionButton, Alert, Card, GameInfo, PlayerInfo, LetterGlitch, GameTerminal } from '../components';
 import { useGlobalContext } from '../context';
 import { attack, attackSound, defense, defenseSound, player01 as player01Icon, player02 as player02Icon } from '../assets';
 import { playAudio } from '../utils/animation.js';
@@ -14,6 +15,9 @@ const Battle = () => {
   const [player1, setPlayer1] = useState({});
   const { battleName } = useParams();
   const navigate = useNavigate();
+  const [showTerminal, setShowTerminal] = useState(false);
+  const [terminalText, setTerminalText] = useState('');
+  const [additionalOutput, setAdditionalOutput] = useState([]);
 
   useEffect(() => {
     const getPlayerInfo = async () => {
@@ -74,6 +78,61 @@ const Battle = () => {
     }
   };
 
+  const handleTerminalCommand = async (command) => {
+    const cmd = command.toLowerCase().trim();
+    
+    switch(cmd) {
+      case '/rules':
+        setAdditionalOutput([
+          "Game Rules:",
+          "1. Card with higher attack damages enemy",
+          "2. Card with higher defense blocks enemy",
+          "3. First player to lose all health loses",
+          "4. Attacking costs 2 Mana",
+          "5. Defending costs 3 Mana",
+          "6. Each round restores 3 Mana"
+        ]);
+        break;
+        
+      case '/exit':
+        try {
+          await contract.quitBattle(battleName);
+          setShowAlert({ status: true, type: 'info', message: `You're quitting the ${battleName}` });
+        } catch (error) {
+          setAdditionalOutput([`Error: Failed to exit battle`]);
+        }
+        break;
+        
+      case '/help':
+        setAdditionalOutput([
+          "Available Commands:",
+          "/rules - Show game rules",
+          "/exit  - Exit current battle",
+          "/help  - Show this help message"
+        ]);
+        break;
+        
+      default:
+        setAdditionalOutput([
+          "Unknown command. Available commands:",
+          "/rules - Show game rules",
+          "/exit  - Exit current battle",
+          "/help  - Show this help message"
+        ]);
+    }
+  };
+
+  const handleKeyPress = async (e) => {
+    if (e.key === 'Enter' && terminalText.trim()) {
+      await handleTerminalCommand(terminalText.trim());
+      setTerminalText('');
+    }
+  };
+
+  const handleChange = (e) => {
+    setTerminalText(e.target.value);
+  };
+
   return (
     <div className="relative w-full h-screen">
       <div className="absolute inset-0 z-0">
@@ -121,9 +180,33 @@ const Battle = () => {
         </div>
 
         <PlayerInfo player={player1} playerIcon={player01Icon} />
-
-        <GameInfo />
       </div>
+
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20">
+        <div
+          className="bg-black w-10 h-10 rounded-md cursor-pointer flex items-center justify-center border border-red-500/30"
+          onClick={() => setShowTerminal(!showTerminal)}
+        >
+          <Terminal 
+            size={24} 
+            className={`transition-colors duration-200 ${
+              showTerminal ? 'text-red-500' : 'text-white hover:text-red-500'
+            }`}
+          />
+        </div>
+      </div>
+
+      {showTerminal && (
+        <div className="absolute right-16 top-1/2 -translate-y-1/2 w-[400px] h-[500px] z-20">
+          <GameTerminal
+            welcomeMessage="Battle Terminal - Type /help for commands"
+            terminalText={terminalText}
+            handleChange={handleChange}
+            handleKeyPress={handleKeyPress}
+            additionalOutput={additionalOutput}
+          />
+        </div>
+      )}
     </div>
   );
 };
