@@ -117,7 +117,6 @@ const Battle = () => {
           "Unknown command. Available commands:",
           "/rules - Show game rules",
           "/exit  - Exit current battle",
-          "/help  - Show this help message"
         ]);
     }
   };
