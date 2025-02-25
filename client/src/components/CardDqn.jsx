@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 
 import styles from '../styles';
-import { cardTemplate, getNftById } from '../assetsDqn';
+import { cardTemplate, getPlayerNfts } from '../assetsDqn';
 
 const CardDqn = ({ card, title, restStyles, cardRef, playerTwo }) => {
   const [nft, setNft] = useState(null);
   
-  // Use specific NFT IDs for each player
+  // Use random NFTs for each player
   useEffect(() => {
-    // Player 2 uses NFT ID 557, Player 1 uses NFT ID 666
-    const nftId = playerTwo ? '557' : '666';
-    setNft(getNftById(nftId));
+    // Get two different random NFTs for the two players
+    const { player1Nft, player2Nft } = getPlayerNfts();
+    // Assign the appropriate NFT based on which player this card belongs to
+    setNft(playerTwo ? player2Nft : player1Nft);
   }, [playerTwo]);
 
   if (!nft) return null;
