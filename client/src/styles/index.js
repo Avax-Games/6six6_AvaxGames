@@ -28,15 +28,15 @@ const styles = {
   battleGroundCardText: 'font-rajdhani font-semibold text-2xl text-white',
 
   // Game page
-  gameContainer: 'w-screen min-h-screen bg-cover bg-no-repeat bg-center flex-col',
-  gameMoveBox: 'sm:w-20 w-14 sm:h-20 h-14 rounded-full cursor-pointer border-[2px]',
+  gameContainer: 'w-screen h-screen bg-cover bg-no-repeat bg-center flex-col',
+  gameMoveBox: 'sm:w-12 w-10 sm:h-12 h-10 rounded-full cursor-pointer border-[2px]',
   gameMoveIcon: 'w-1/2 h-1/w-1/2 object-contain',
 
   // player info component
-  playerImg: 'w-14 h-14 object-contain rounded-full',
-  playerHealth: 'flex flex-row bg-white rounded-md p-2 sm:min-w-[512px] min-w-[312px] sm:min-h-[48px] min-h-[40px] bg-opacity-10 backdrop-filter backdrop-blur-lg mx-3',
-  playerHealthBar: 'sm:text-2xl text-xl',
-  playerMana: 'w-14 h-14 rounded-full text-white font-rajdhani font-extrabold text-2xl cursor-pointer',
+  playerImg: 'w-8 h-8 object-contain rounded-full',
+  playerHealth: 'flex flex-row bg-white rounded-md p-1 sm:min-w-[200px] min-w-[180px] sm:min-h-[32px] min-h-[28px] bg-opacity-10 backdrop-filter backdrop-blur-lg mx-2',
+  playerHealthBar: 'sm:text-base text-sm',
+  playerMana: 'w-8 h-8 rounded-full text-white font-rajdhani font-extrabold text-base cursor-pointer',
   playerInfo: 'font-rajdhani font-medium',
   playerInfoSpan: 'font-extrabold text-white',
 
@@ -47,6 +47,15 @@ const styles = {
   cardPoint: 'font-rajdhani text-[20px] font-bold',
   cardTextContainer: 'absolute w-full bottom-[13.5%] left-3',
   cardText: 'font-rajdhani text-[26px] font-bold text-white',
+
+  // DQN card component
+  cardDqnContainer: 'relative sm:w-[240px] w-[200px] sm:h-[340px] h-[300px] z-0',
+  cardDqnImg: 'w-full h-full object-contain',
+  cardDqnImageContainer: 'absolute top-[25%] left-1/2 transform -translate-x-1/2 w-[60%] h-[30%] z-20 overflow-hidden rounded-md',
+  cardDqnHexagon: 'absolute top-[6%] right-[6%] z-30 flex items-center justify-center w-[48px] h-[48px]',
+  cardDqnTriangleAttack: 'absolute bottom-[13%] right-[16%] z-30 flex items-center justify-center w-[40px] h-[40px]',
+  cardDqnTriangleDefense: 'absolute bottom-[13%] left-[16%] z-30 flex items-center justify-center w-[40px] h-[40px]',
+  cardDqnName: 'absolute bottom-[4%] left-1/2 transform -translate-x-1/2 z-30 w-full text-center',
 
   // custom button component
   btn: 'px-4 py-2 rounded-lg bg-siteViolet w-fit text-white font-rajdhani font-bold',

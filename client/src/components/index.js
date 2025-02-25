@@ -11,6 +11,7 @@ import OnboardModal from './OnboardModal';
 import LetterGlitch from './LetterGlitch';
 import CircularText from './CircularText';
 import GameTerminal from './GameTerminal';
+import CardDqn from './CardDqn';
 
 export {
   Card,
@@ -26,4 +27,5 @@ export {
   LetterGlitch,
   CircularText,
   GameTerminal,
+  CardDqn,
 };

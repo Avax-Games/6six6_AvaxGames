@@ -9,8 +9,18 @@ import { GetParams, SwitchNetwork } from '../utils/onboard.js';
 
 const OnboardModal = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const { updateCurrentWalletAddress } = useGlobalContext();
   const [step, setStep] = useState(-1);
+  const [contextReady, setContextReady] = useState(false);
+  
+  // Get context safely
+  const context = useGlobalContext();
+  
+  // Only access updateCurrentWalletAddress when context is ready
+  useEffect(() => {
+    if (context && typeof context.updateCurrentWalletAddress === 'function') {
+      setContextReady(true);
+    }
+  }, [context]);
 
   async function resetParams() {
     const currentStep = await GetParams();
@@ -29,6 +39,21 @@ const OnboardModal = () => {
       resetParams();
     });
   }, []);
+
+  // Fallback function if context is not available
+  const handleConnectWallet = async () => {
+    if (contextReady && context.updateCurrentWalletAddress) {
+      await context.updateCurrentWalletAddress();
+    } else {
+      // Fallback implementation
+      try {
+        const accounts = await window?.ethereum?.request({ method: 'eth_requestAccounts' });
+        console.log('Connected accounts:', accounts);
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
+      }
+    }
+  };
 
   const generateStep = (st) => {
     switch (st) {
@@ -53,7 +78,7 @@ const OnboardModal = () => {
             </p>
             <CustomButton
               title="Connect Account"
-              handleClick={updateCurrentWalletAddress}
+              handleClick={handleConnectWallet}
             />
           </>
         );

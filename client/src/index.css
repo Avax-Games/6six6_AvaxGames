@@ -518,17 +518,6 @@ body {
   animation: float-slower 4s ease-in-out infinite;
 }
 
-/* Triangle glow effect - Enhanced for red theme */
-.triangle-glow {
-  filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
-  transition: filter 0.3s ease, transform 0.3s ease;
-}
-
-.triangle-glow:hover {
-  filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.9));
-  transform: scale(1.2);
-}
-
 /* Health bar shine effect - Updated for red theme */
 @keyframes shine {
   0% {
@@ -666,4 +655,160 @@ body {
 
 .animate-red-pulse {
   animation: redPulse 2s ease-in-out infinite;
+}
+
+/* CardDqn Component Animations */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 0, 0, 0.3);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.card-tilt {
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+}
+
+.glow-effect {
+  animation: none;
+  border-radius: 10px;
+}
+
+.card-tilt:hover .glow-effect {
+  animation: none;
+}
+
+.card-tilt:hover {
+  animation: none;
+  transform: none;
+}
+
+/* Triangle glow effects */
+.triangle-glow {
+  animation: none;
+}
+
+.triangle-glow:hover {
+  filter: none;
+  transform: none;
+}
+
+/* Hexagon animation */
+@keyframes hexagonPulse {
+  0% {
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.7));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 1));
+  }
+  100% {
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.7));
+  }
+}
+
+.hexagon-glow {
+  animation: none;
+}
+
+/* Card image container effects */
+.card-image-container {
+  transition: none;
+  overflow: hidden;
+}
+
+.card-image-container img {
+  transition: none;
+}
+
+.card-tilt:hover .card-image-container img {
+  transform: none;
+}
+
+/* Card name animation */
+@keyframes textGlow {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.card-name {
+  animation: none;
+}
+
+/* Attack and defense point animations */
+@keyframes attackGlow {
+  0% {
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8), 0 0 15px rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+  }
+}
+
+@keyframes defenseGlow {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 15px rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+}
+
+.attack-point {
+  animation: none;
+}
+
+.defense-point {
+  animation: none;
+}
+
+/* Card hover effect */
+.card-tilt {
+  transition: transform 0.3s ease;
+}
+
+.card-tilt:hover {
+  transform: translateY(-5px);
 }

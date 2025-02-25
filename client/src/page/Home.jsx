@@ -13,8 +13,18 @@ import { useGlobalContext } from "../context";
 import styles from "../styles";
 
 const Home = () => {
-  const { contract, walletAddress, gameData, setShowAlert, setErrorMessage, setBattleName } =
-    useGlobalContext();
+  // Get context safely
+  const context = useGlobalContext();
+  const [contextReady, setContextReady] = useState(false);
+  
+  // Extract context values once it's ready
+  const contract = context?.contract;
+  const walletAddress = context?.walletAddress;
+  const gameData = context?.gameData;
+  const setShowAlert = context?.setShowAlert;
+  const setErrorMessage = context?.setErrorMessage;
+  const setBattleName = context?.setBattleName;
+  
   const [playerName, setPlayerName] = useState("");
   const [terminalText, setTerminalText] = useState("");
   const [showPrompt, setShowPrompt] = useState(true);
@@ -25,6 +35,13 @@ const Home = () => {
   const [additionalOutput, setAdditionalOutput] = useState([]);
   const navigate = useNavigate();
 
+  // Check if context is ready
+  useEffect(() => {
+    if (context && contract && walletAddress) {
+      setContextReady(true);
+    }
+  }, [context, contract, walletAddress]);
+
   const handleHover = () => {
     const timer = setTimeout(() => {
       console.log("666");
@@ -34,21 +51,28 @@ const Home = () => {
   };
 
   const handleCommand = async (command) => {
+    if (!contextReady) {
+      setAdditionalOutput(["System initializing... Please wait."]);
+      return;
+    }
+    
     if (!isExistingPlayer) {
       try {
         const playerExists = await contract.isPlayer(walletAddress);
         if (!playerExists) {
           await contract.registerPlayer(command, command, { gasLimit: 500000 });
-          setShowAlert({
-            status: true,
-            type: "info",
-            message: `${command} is being summoned!`,
-          });
+          if (setShowAlert) {
+            setShowAlert({
+              status: true,
+              type: "info",
+              message: `${command} is being summoned!`,
+            });
+          }
           setPlayerName(command);
           setTimeout(() => setIsExistingPlayer(true), 8000);
         }
       } catch (error) {
-        setErrorMessage(error);
+        if (setErrorMessage) setErrorMessage(error);
       }
       return;
     }
@@ -100,7 +124,7 @@ const Home = () => {
               return;
             }
             try {
-              setBattleName(battleName);
+              if (setBattleName) setBattleName(battleName);
               await contract.createBattle(battleName);
               setWaitBattle(true);
             } catch (error) {
@@ -127,11 +151,13 @@ const Home = () => {
               }
 
               await contract.joinBattle(battleName);
-              setShowAlert({
-                status: true,
-                type: 'success',
-                message: `Joining ${battleName}...`
-              });
+              if (setShowAlert) {
+                setShowAlert({
+                  status: true,
+                  type: 'success',
+                  message: `Joining ${battleName}...`
+                });
+              }
               setTimeout(() => navigate(`/battle/${battleName}`), 1000);
             } catch (error) {
               setAdditionalOutput([`Error: Failed to join battle`]);
@@ -164,7 +190,7 @@ const Home = () => {
 
   useEffect(() => {
     const checkPlayerToken = async () => {
-      if (contract && walletAddress) {
+      if (contextReady && contract && walletAddress) {
         const playerExists = await contract.isPlayer(walletAddress);
         const playerTokenExists = await contract.isPlayerToken(walletAddress);
         if (playerExists && playerTokenExists) {
@@ -174,14 +200,17 @@ const Home = () => {
         }
       }
     };
-    checkPlayerToken();
-  }, [contract, walletAddress]);
+    
+    if (contextReady) {
+      checkPlayerToken();
+    }
+  }, [contract, walletAddress, contextReady]);
 
   useEffect(() => {
-    if (gameData?.activeBattle?.battleStatus === 1) {
+    if (contextReady && gameData?.activeBattle?.battleStatus === 1) {
       navigate(`/battle/${gameData.activeBattle.name}`);
     }
-  }, [gameData]);
+  }, [gameData, contextReady]);
 
   return (
     <div className={`${styles.hocContainer} relative min-h-screen bg-black`}>

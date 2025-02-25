@@ -21,7 +21,7 @@ const getTriangleColor = (points) => {
   return 'text-red-500';
 };
 
-const marginIndexing = (index) => (index !== healthPoints - 1 ? 'mr-2' : 'mr-0');
+const marginIndexing = (index) => (index !== healthPoints - 1 ? 'mr-1' : 'mr-0');
 
 // Particle component for low health effect - using red particles
 const HealthParticle = ({ isLowHealth }) => {
@@ -71,7 +71,7 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
   const isCritical = player.health <= 3;
 
   return (
-    <div className={`${styles.flexCenter} ${mt ? 'mt-4' : 'mb-4'}`}>
+    <div className={`${styles.flexCenter} ${mt ? 'mt-0' : 'mb-0'}`}>
       <div className="flex items-center">
         {/* Health Bar */}
         <div
@@ -79,17 +79,17 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
           data-tip={`Health: ${player.health}`}
           className={`
             relative overflow-hidden 
-            ${isLowHealth ? 'border-2 border-red-500' : 'border-2 border-red-800'} 
+            ${isLowHealth ? 'border border-red-500' : 'border border-red-800'} 
             ${takingDamage ? 'animate-shake' : ''}
             ${isCritical ? 'animate-glitch' : ''}
             health-bar-shine scanline
             bg-black bg-opacity-90
             animate-red-pulse
             rounded-md
-            h-12
-            w-96
-            mx-2
-            shadow-[0_0_15px_rgba(255,0,0,0.4)]
+            h-10
+            w-60
+            mx-1
+            shadow-[0_0_10px_rgba(255,0,0,0.3)]
           `}
         >
           {/* Background health bar */}
@@ -100,7 +100,7 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
             className={`absolute h-full bg-gradient-to-r ${healthLevel(player.health)} transition-all duration-500 ease-out rounded-md ${isLowHealth ? 'animate-pulse' : ''}`}
             style={{ 
               width: `${(player.health / healthPoints) * 100}%`,
-              boxShadow: '0 0 10px rgba(255, 0, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.4)'
+              boxShadow: '0 0 5px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 0, 0, 0.3)'
             }}
           ></div>
           
@@ -111,28 +111,17 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
           <HealthParticle isLowHealth={isLowHealth} />
           
           {/* Health triangles */}
-          <div className="relative flex items-center h-full z-10 px-3 py-1">
+          <div className="relative flex items-center h-full z-10 px-2 py-1">
             {[...Array(player.health).keys()].map((item, index) => (
               <div
                 key={`player-item-${item}`}
                 className={`
                   ${marginIndexing(index)}
-                  transition-all duration-300 transform hover:scale-125
                   flex items-center justify-center
-                  ${animateHealth ? 'animate-bounce' : ''}
-                  ${index % 2 === 0 ? 'animate-float-slow' : 'animate-float-slower'}
                 `}
-                style={{ 
-                  animationDelay: `${index * 0.1}s`,
-                  transform: `translateY(${Math.sin(index) * 2}px)`
-                }}
               >
                 <span 
-                  className={`${getTriangleColor(player.health)} text-3xl triangle-glow`}
-                  style={{ 
-                    filter: 'drop-shadow(0 0 5px rgba(255, 0, 0, 0.9)) drop-shadow(0 0 2px white)',
-                    textShadow: '0 0 10px rgba(255, 0, 0, 0.8), 0 0 5px rgba(255, 255, 255, 0.5)'
-                  }}
+                  className={`${getTriangleColor(player.health)} text-s`}
                 >
                   🔺
                 </span>
@@ -141,8 +130,8 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
           </div>
           
           {/* Health counter - adjusted position and z-index */}
-          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-80 px-2 py-0.5 rounded-sm text-red-400 font-mono font-bold text-sm border border-red-800 z-20">
-            <span className="mr-1 text-xs">HP</span>
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-80 px-1 py-0.5 rounded-sm text-red-400 font-mono font-bold text-xs border border-red-800 z-20">
+            <span className="mr-1 text-[8px]">HP</span>
             {player.health}/{healthPoints}
           </div>
           
@@ -163,26 +152,24 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
           className={`
             ${styles.flexCenter}
             bg-gradient-to-br from-red-900 to-black 
-            transition-all duration-300 
-            hover:shadow-[0_0_15px_rgba(255,0,0,0.5)]
-            border-2 border-red-800
+            border border-red-800
             text-red-400
             font-mono
             font-bold
             relative
             overflow-hidden
-            w-12
-            h-12
+            w-10
+            h-10
             rounded-full
-            ml-2
-            shadow-[0_0_10px_rgba(255,0,0,0.3)]
+            ml-1
+            shadow-[0_0_5px_rgba(255,0,0,0.3)]
           `}
         >
           {/* Mana value */}
-          <span className="relative z-10 text-lg">{player.mana || 0}</span>
+          <span className="relative z-10 text-s">{player.mana || 0}</span>
           
           {/* Mana label */}
-          <span className="absolute top-0 left-0 text-[8px] text-red-600 ml-1 mt-0.5">MP</span>
+          <span className="absolute top-0 left-0 text-[6px] text-red-600 ml-1 mt-0.5">MP</span>
           
           {/* Decorative circle */}
           <div className="absolute inset-0 rounded-full border border-red-800/50"></div>
