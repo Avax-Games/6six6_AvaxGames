@@ -51,7 +51,7 @@ const styles = {
   // DQN card component
   cardDqnContainer: 'relative sm:w-[270px] w-[200px] sm:h-[330px] h-[300px] z-0',
   cardDqnImg: 'w-full h-full object-contain',
-  cardDqnImageContainer: 'absolute top-[22%] left-[49%] transform -translate-x-1/2 w-[50%] h-[38%] z-20 overflow-hidden rounded-md',
+  cardDqnImageContainer: 'absolute top-[22%] left-[49%] transform -translate-x-1/2 w-[50%] h-[38%] z-20 overflow-hidden',
   cardDqnHexagon: 'absolute top-[6%] right-[10%] z-30 flex items-center justify-center w-[55px] h-[55px]',
   cardDqnTriangleAttack: 'absolute bottom-[20%] right-[35%] z-30 flex items-center justify-center w-[45px] h-[45px]',
   cardDqnTriangleDefense: 'absolute bottom-[17%] left-[29%] z-30 flex items-center justify-center w-[45px] h-[45px]',
