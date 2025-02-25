@@ -198,7 +198,7 @@ const Battle = () => {
             {/* Player info and cards in a centered column layout */}
             <div className="flex flex-col items-center relative">
               {/* Player 2 health bar positioned to the left of center */}
-              <div className="absolute top-1/4 right-[100%] mr-4">
+              <div className="absolute top-[20%] right-[100%] mr-4">
                 <PlayerInfo player={player2} playerIcon={player02Icon} mt />
               </div>
               
@@ -237,7 +237,7 @@ const Battle = () => {
               </div>
               
               {/* Player 1 health bar positioned to the right of center */}
-              <div className="absolute bottom-1/4 left-[100%] ml-4">
+              <div className="absolute bottom-[20%] left-[100%] ml-4">
                 <PlayerInfo player={player1} playerIcon={player01Icon} />
               </div>
             </div>

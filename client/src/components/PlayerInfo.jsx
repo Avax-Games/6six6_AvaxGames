@@ -2,24 +2,72 @@ import ReactTooltip from 'react-tooltip';
 import React, { useEffect, useState } from 'react';
 import styles from '../styles';
 
+// CSS for blood animations
+const bloodAnimationStyles = `
+  @keyframes blood-drip {
+    0% { height: 0; opacity: 0; }
+    10% { opacity: 0.9; }
+    70% { height: 15px; opacity: 0.8; }
+    100% { height: 30px; opacity: 0; transform: translateY(100%); }
+  }
+  
+  .animate-blood-drip {
+    animation: blood-drip 3s ease-in infinite;
+  }
+  
+  @keyframes particle {
+    0% { transform: translateY(0) scale(1); opacity: 0.8; }
+    100% { transform: translateY(20px) scale(0); opacity: 0; }
+  }
+  
+  .animate-particle {
+    animation: particle 2s ease-out infinite;
+  }
+  
+  .health-bar-shine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 0, 0, 0.2),
+      transparent
+    );
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    0% { left: -100%; }
+    20% { left: 100%; }
+    100% { left: 100%; }
+  }
+  
+  .animate-red-pulse {
+    animation: red-pulse 2s infinite;
+  }
+  
+  @keyframes red-pulse {
+    0% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); }
+  }
+`;
+
 const healthPoints = 25;
 
 // Enhanced health level function with red color gradients
 const healthLevel = (points) => {
-  if (points >= 20) return 'from-red-500 to-red-600';
-  if (points >= 15) return 'from-red-600 to-red-700';
-  if (points >= 10) return 'from-red-700 to-red-800';
-  if (points >= 5) return 'from-red-800 to-red-900';
-  return 'from-red-900 to-black';
+  if (points >= 20) return 'from-red-600 to-red-700';
+  if (points >= 15) return 'from-red-700 to-red-800';
+  if (points >= 10) return 'from-red-800 to-red-900';
+  if (points >= 5) return 'from-red-900 to-red-950';
+  return 'from-red-950 to-black';
 };
 
-// Get triangle color based on health - only using red shades
-const getTriangleColor = (points) => {
-  if (points >= 15) return 'text-red-200';
-  if (points >= 10) return 'text-red-300';
-  if (points >= 5) return 'text-red-400';
-  return 'text-red-500';
-};
 
 const marginIndexing = (index) => (index !== healthPoints - 1 ? 'mr-1' : 'mr-0');
 
@@ -29,16 +77,37 @@ const HealthParticle = ({ isLowHealth }) => {
   
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(8)].map((_, i) => (
+      {/* Blood particles */}
+      {[...Array(15)].map((_, i) => (
         <div 
           key={`particle-${i}`}
-          className="absolute w-1 h-1 bg-red-600 rounded-full animate-particle"
+          className="absolute rounded-full animate-particle"
           style={{
+            width: `${1 + Math.random() * 2}px`,
+            height: `${1 + Math.random() * 2}px`,
+            background: `rgba(${200 + Math.random() * 55}, 0, 0, ${0.7 + Math.random() * 0.3})`,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
             animationDelay: `${Math.random() * 2}s`,
             animationDuration: `${1 + Math.random() * 2}s`,
-            boxShadow: '0 0 5px #ff0000, 0 0 10px rgba(255, 0, 0, 0.5)'
+            boxShadow: '0 0 5px #ff0000, 0 0 10px rgba(255, 0, 0, 0.7)'
+          }}
+        />
+      ))}
+      
+      {/* Blood drip effect */}
+      {[...Array(3)].map((_, i) => (
+        <div 
+          key={`drip-${i}`}
+          className="absolute w-[2px] animate-blood-drip"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255,0,0,0.8), rgba(128,0,0,0.9))',
+            left: `${20 + i * 30 + Math.random() * 10}%`,
+            top: '0',
+            height: `${5 + Math.random() * 15}px`,
+            animationDelay: `${i * 0.5 + Math.random()}s`,
+            animationDuration: `${2 + Math.random() * 3}s`,
+            boxShadow: '0 0 3px rgba(255, 0, 0, 0.5)'
           }}
         />
       ))}
@@ -72,6 +141,9 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
 
   return (
     <div className={`${styles.flexCenter} ${mt ? 'mt-0' : 'mb-0'}`}>
+      {/* Apply blood animation styles */}
+      <style dangerouslySetInnerHTML={{ __html: bloodAnimationStyles }} />
+      
       <div className="flex items-center">
         {/* Health Bar */}
         <div
@@ -79,7 +151,7 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
           data-tip={`Health: ${player.health}`}
           className={`
             relative overflow-hidden 
-            ${isLowHealth ? 'border border-red-500' : 'border border-red-800'} 
+            ${isLowHealth ? 'border-2 border-red-500' : 'border border-red-700'} 
             ${takingDamage ? 'animate-shake' : ''}
             ${isCritical ? 'animate-glitch' : ''}
             health-bar-shine scanline
@@ -89,9 +161,25 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
             h-10
             w-60
             mx-1
-            shadow-[0_0_10px_rgba(255,0,0,0.3)]
+            shadow-[0_0_15px_rgba(255,0,0,0.5)]
           `}
+          style={{
+            boxShadow: isLowHealth 
+              ? '0 0 10px #ff0000, 0 0 20px rgba(255, 0, 0, 0.5), inset 0 0 5px rgba(255, 0, 0, 0.5)' 
+              : '0 0 10px rgba(255, 0, 0, 0.4), inset 0 0 5px rgba(255, 0, 0, 0.3)'
+          }}
         >
+          {/* Blood splatter effect for critical health */}
+          {isCritical && (
+            <div 
+              className="absolute inset-0 z-10 pointer-events-none mix-blend-overlay" 
+              style={{
+                backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48Y2lyY2xlIGN4PSIxMCIgY3k9IjEwIiByPSI1IiBmaWxsPSJyZ2JhKDI1NSwwLDAsMC4zKSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMjAiIHI9IjMiIGZpbGw9InJnYmEoMjU1LDAsMCwwLjQpIi8+PGNpcmNsZSBjeD0iNzAiIGN5PSIxNSIgcj0iNyIgZmlsbD0icmdiYSgyNTUsMCwwLDAuMykiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjgwIiByPSI0IiBmaWxsPSJyZ2JhKDI1NSwwLDAsMC41KSIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iNjAiIHI9IjYiIGZpbGw9InJnYmEoMjU1LDAsMCwwLjQpIi8+PC9zdmc+")',
+                opacity: 0.7
+              }}
+            />
+          )}
+
           {/* Background health bar */}
           <div className="absolute inset-0 bg-black bg-opacity-80 rounded-md"></div>
           
@@ -100,12 +188,24 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
             className={`absolute h-full bg-gradient-to-r ${healthLevel(player.health)} transition-all duration-500 ease-out rounded-md ${isLowHealth ? 'animate-pulse' : ''}`}
             style={{ 
               width: `${(player.health / healthPoints) * 100}%`,
-              boxShadow: '0 0 5px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 0, 0, 0.3)'
+              boxShadow: '0 0 10px rgba(255, 0, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.4), inset 0 0 15px rgba(255, 0, 0, 0.5)',
+              backgroundImage: 'linear-gradient(90deg, rgba(255,0,0,0.8) 0%, rgba(200,0,0,0.9) 100%)',
+              borderRight: '2px solid rgba(255, 0, 0, 0.8)'
+            }}
+          ></div>
+          
+          {/* Blood vein overlay */}
+          <div 
+            className="absolute inset-0 opacity-40 mix-blend-overlay"
+            style={{
+              backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAiPjxwYXRoIGQ9Ik0wLDUgQzIwLDIsNDAsMTAsNjAsMiBDODAsOCwxMDAsMiwxMDAsNSIgc3Ryb2tlPSJyZ2JhKDI1NSwwLDAsMC41KSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+")',
+              backgroundSize: '100px 10px',
+              backgroundRepeat: 'repeat'
             }}
           ></div>
           
           {/* Grid overlay for futuristic look */}
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDUgTCAyMCA1IE0gNSAwIEwgNSAyMCIgc3Ryb2tlPSJyZ2JhKDI1NSwgMCwgMCwgMC4yKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIiAvPjwvc3ZnPg==')]"></div>
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDUgTCAyMCA1IE0gNSAwIEwgNSAyMCIgc3Ryb2tlPSJyZ2JhKDI1NSwgMCwgMCwgMC4zKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIiAvPjwvc3ZnPg==')]"></div>
           
           {/* Low health particles */}
           <HealthParticle isLowHealth={isLowHealth} />
@@ -121,7 +221,13 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
                 `}
               >
                 <span 
-                  className={`${getTriangleColor(player.health)} text-s`}
+                  className={`text-red-700 text-lg`}
+                  style={{
+                    fontSize: '1.5rem',
+                    color: '#7f0000', // Dark red color
+                    filter: 'drop-shadow(0 0 2px rgba(255, 0, 0, 0.7))',
+                    transform: 'scale(1.2)',
+                  }}
                 >
                   🔺
                 </span>
