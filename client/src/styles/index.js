@@ -49,13 +49,13 @@ const styles = {
   cardText: 'font-rajdhani text-[26px] font-bold text-white',
 
   // DQN card component
-  cardDqnContainer: 'relative sm:w-[240px] w-[200px] sm:h-[340px] h-[300px] z-0',
+  cardDqnContainer: 'relative sm:w-[270px] w-[200px] sm:h-[330px] h-[300px] z-0',
   cardDqnImg: 'w-full h-full object-contain',
-  cardDqnImageContainer: 'absolute top-[25%] left-1/2 transform -translate-x-1/2 w-[60%] h-[30%] z-20 overflow-hidden rounded-md',
-  cardDqnHexagon: 'absolute top-[6%] right-[6%] z-30 flex items-center justify-center w-[48px] h-[48px]',
-  cardDqnTriangleAttack: 'absolute bottom-[13%] right-[16%] z-30 flex items-center justify-center w-[40px] h-[40px]',
-  cardDqnTriangleDefense: 'absolute bottom-[13%] left-[16%] z-30 flex items-center justify-center w-[40px] h-[40px]',
-  cardDqnName: 'absolute bottom-[4%] left-1/2 transform -translate-x-1/2 z-30 w-full text-center',
+  cardDqnImageContainer: 'absolute top-[22%] left-[49%] transform -translate-x-1/2 w-[50%] h-[38%] z-20 overflow-hidden rounded-md',
+  cardDqnHexagon: 'absolute top-[6%] right-[10%] z-30 flex items-center justify-center w-[55px] h-[55px]',
+  cardDqnTriangleAttack: 'absolute bottom-[20%] right-[35%] z-30 flex items-center justify-center w-[45px] h-[45px]',
+  cardDqnTriangleDefense: 'absolute bottom-[17%] left-[29%] z-30 flex items-center justify-center w-[45px] h-[45px]',
+  cardDqnName: 'absolute bottom-[2%] left-1/2 transform -translate-x-1/2 z-30 w-full text-center',
 
   // custom button component
   btn: 'px-4 py-2 rounded-lg bg-siteViolet w-fit text-white font-rajdhani font-bold',

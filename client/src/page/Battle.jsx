@@ -214,15 +214,16 @@ const Battle = () => {
 
               {/* Action buttons */}
               <div className="flex items-center justify-center">
-                <ActionButton
-                  imgUrl={attack}
-                  handleClick={() => makeAMove(1)}
-                  restStyles="mr-2 hover:border-yellow-400 scale-90"
-                />
+                
                 <ActionButton
                   imgUrl={defense}
                   handleClick={() => makeAMove(2)}
-                  restStyles="ml-2 hover:border-red-600 scale-90"
+                  restStyles="mr-2 mt-2 hover:border-red-600 scale-90"
+                />
+                <ActionButton
+                  imgUrl={attack}
+                  handleClick={() => makeAMove(1)}
+                  restStyles="ml-2 mt-2 hover:border-green-400 scale-90"
                 />
               </div>
 
@@ -259,7 +260,7 @@ const Battle = () => {
       </div>
 
       {showTerminal && (
-        <div className="absolute right-16 top-1/2 -translate-y-1/2 w-[400px] h-[500px] z-20">
+        <div className="absolute right-12 top-[40%] -translate-y-1/2 w-[400px] h-[500px] z-20">
           <GameTerminal
             welcomeMessage="Battle Terminal - Type /help for commands"
             terminalText={terminalText}

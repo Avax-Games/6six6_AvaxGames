@@ -41,28 +41,28 @@ const CardDqn = ({ card, title, restStyles, cardRef, playerTwo }) => {
           <img 
             src={nft.image} 
             alt={nft.name} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
         </div>
         
         {/* NFT ID in the top right hexagon */}
         <div className={`${styles.cardDqnHexagon}`}>
-          <span className="text-white font-bold text-2xl flex items-center justify-center w-full h-full">
+          <span className="text-white font-bold font-size-10 flex items-center justify-center">
             {nft.id}
           </span>
         </div>
         
         {/* Attack Points in the bottom right green triangle */}
         <div className={`${styles.cardDqnTriangleAttack}`}>
-          <span className="text-white font-bold text-2xl flex items-center justify-center w-full h-full">
-            {card.att || 7}
+          <span className="text-white font-bold text-xl flex items-center justify-center">
+            {card.att || 0}
           </span>
         </div>
         
         {/* Defense Points in the bottom left red triangle */}
         <div className={`${styles.cardDqnTriangleDefense}`}>
-          <span className="text-white font-bold text-2xl flex items-center justify-center w-full h-full">
-            {card.def || 3}
+          <span className="text-white font-bold text-xl flex items-center justify-center">
+            {card.def || 0}
           </span>
         </div>
         
