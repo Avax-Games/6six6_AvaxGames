@@ -7,8 +7,8 @@ const bloodAnimationStyles = `
   @keyframes blood-drip {
     0% { height: 0; opacity: 0; }
     10% { opacity: 0.9; }
-    70% { height: 15px; opacity: 0.8; }
-    100% { height: 30px; opacity: 0; transform: translateY(100%); }
+    70% { height: 20px; opacity: 0.8; }
+    100% { height: 40px; opacity: 0; transform: translateY(100%); }
   }
   
   .animate-blood-drip {
@@ -17,7 +17,7 @@ const bloodAnimationStyles = `
   
   @keyframes particle {
     0% { transform: translateY(0) scale(1); opacity: 0.8; }
-    100% { transform: translateY(20px) scale(0); opacity: 0; }
+    100% { transform: translateY(25px) scale(0); opacity: 0; }
   }
   
   .animate-particle {
@@ -78,13 +78,13 @@ const HealthParticle = ({ isLowHealth }) => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Blood particles */}
-      {[...Array(15)].map((_, i) => (
+      {[...Array(20)].map((_, i) => (
         <div 
           key={`particle-${i}`}
           className="absolute rounded-full animate-particle"
           style={{
-            width: `${1 + Math.random() * 2}px`,
-            height: `${1 + Math.random() * 2}px`,
+            width: `${1.5 + Math.random() * 2.5}px`,
+            height: `${1.5 + Math.random() * 2.5}px`,
             background: `rgba(${200 + Math.random() * 55}, 0, 0, ${0.7 + Math.random() * 0.3})`,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
@@ -96,15 +96,15 @@ const HealthParticle = ({ isLowHealth }) => {
       ))}
       
       {/* Blood drip effect */}
-      {[...Array(3)].map((_, i) => (
+      {[...Array(4)].map((_, i) => (
         <div 
           key={`drip-${i}`}
-          className="absolute w-[2px] animate-blood-drip"
+          className="absolute w-[3px] animate-blood-drip"
           style={{
             background: 'linear-gradient(to bottom, rgba(255,0,0,0.8), rgba(128,0,0,0.9))',
-            left: `${20 + i * 30 + Math.random() * 10}%`,
+            left: `${15 + i * 25 + Math.random() * 10}%`,
             top: '0',
-            height: `${5 + Math.random() * 15}px`,
+            height: `${8 + Math.random() * 20}px`,
             animationDelay: `${i * 0.5 + Math.random()}s`,
             animationDuration: `${2 + Math.random() * 3}s`,
             boxShadow: '0 0 3px rgba(255, 0, 0, 0.5)'
@@ -158,8 +158,8 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
             bg-black bg-opacity-90
             animate-red-pulse
             rounded-md
-            h-10
-            w-60
+            h-12
+            w-64
             mx-1
             shadow-[0_0_15px_rgba(255,0,0,0.5)]
           `}
@@ -211,7 +211,7 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
           <HealthParticle isLowHealth={isLowHealth} />
           
           {/* Health triangles */}
-          <div className="relative flex items-center h-full z-10 px-2 py-1">
+          <div className="relative flex items-center h-full z-10 px-3 py-1">
             {[...Array(player.health).keys()].map((item, index) => (
               <div
                 key={`player-item-${item}`}
@@ -236,19 +236,19 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
           </div>
           
           {/* Health counter - adjusted position and z-index */}
-          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-80 px-1 py-0.5 rounded-sm text-red-400 font-mono font-bold text-xs border border-red-800 z-20">
-            <span className="mr-1 text-[8px]">HP</span>
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-80 px-1.5 py-0.5 rounded-sm text-red-400 font-mono font-bold text-sm border border-red-800 z-20">
+            <span className="mr-1 text-[10px]">HP</span>
             {player.health}/{healthPoints}
           </div>
           
           {/* Left edge accent */}
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-600"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-600"></div>
           
           {/* Top edge tech details */}
-          <div className="absolute top-0 left-0 right-0 h-[1px] bg-red-700"></div>
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-red-700"></div>
           
           {/* Bottom edge tech details */}
-          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-red-700"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-red-700"></div>
         </div>
 
         {/* Mana Display - Now positioned to the right of health bar */}
@@ -264,15 +264,15 @@ const PlayerInfo = ({ player, playerIcon, mt }) => {
             font-bold
             relative
             overflow-hidden
-            w-10
-            h-10
+            w-12
+            h-12
             rounded-full
-            ml-1
+            ml-2
             shadow-[0_0_5px_rgba(255,0,0,0.3)]
           `}
         >
           {/* Mana value */}
-          <span className="relative z-10 text-s">{player.mana || 0}</span>
+          <span className="relative z-10 text-[25px]">{player.mana || 0}</span>
           
           {/* Mana label */}
           <span className="absolute top-0 left-0 text-[6px] text-red-600 ml-1 mt-0.5">MP</span>
