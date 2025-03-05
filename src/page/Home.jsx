@@ -5,7 +5,7 @@ import {
   CircularText,
   LetterGlitch,
   GameTerminal,
-  CustomButton
+  CustomButton,
 } from "../components";
 import styles from "../styles";
 
@@ -14,7 +14,7 @@ const mockPlayerName = "CyberWarrior";
 const mockBattles = [
   { name: "Neon Arena" },
   { name: "Quantum Field" },
-  { name: "Digital Wasteland" }
+  { name: "Digital Wasteland" },
 ];
 
 const Home = () => {
@@ -41,14 +41,16 @@ const Home = () => {
     // Handle new player registration (UI only)
     if (!isExistingPlayer) {
       setPlayerName(command);
-      setAdditionalOutput([`Welcome, ${command}! Registration successful (UI Only)`]);
+      setAdditionalOutput([
+        `Welcome, ${command}! Registration successful (UI Only)`,
+      ]);
       setTimeout(() => setIsExistingPlayer(true), 2000);
       return;
     }
 
     // Handle commands for existing players
-    switch(cmd) {
-      case '/help':
+    switch (cmd) {
+      case "/help":
         setAdditionalOutput([
           "Available Commands:",
           "/create - Create a new battle room",
@@ -57,61 +59,61 @@ const Home = () => {
           "",
           "Example usage:",
           "/create <battle_name>",
-          "/join <battle_name>"
+          "/join <battle_name>",
         ]);
         break;
 
-      case '/show':
+      case "/show":
         setAdditionalOutput([
           "Available Battles (UI Only):",
-          ...mockBattles.map(battle => `- ${battle.name}`)
+          ...mockBattles.map((battle) => `- ${battle.name}`),
         ]);
         break;
 
       default:
-        if (cmd.startsWith('/create ')) {
+        if (cmd.startsWith("/create ")) {
           const battleName = command.slice(8).trim();
           if (!battleName) {
-            setAdditionalOutput(['Usage: /create <battle_name>']);
+            setAdditionalOutput(["Usage: /create <battle_name>"]);
             return;
           }
-          
+
           setAdditionalOutput([`Creating battle "${battleName}" (UI Only)`]);
           setWaitBattle(true);
-          
+
           // Add the new battle to mock battles for UI demo
           mockBattles.push({ name: battleName });
-        }
-        else if (cmd.startsWith('/join ')) {
+        } else if (cmd.startsWith("/join ")) {
           const battleName = command.slice(6).trim();
           if (!battleName) {
-            setAdditionalOutput(['Usage: /join <battle_name>']);
+            setAdditionalOutput(["Usage: /join <battle_name>"]);
             return;
           }
-          
-          const battle = mockBattles.find(b => b.name.toLowerCase() === battleName.toLowerCase());
-          
+
+          const battle = mockBattles.find(
+            (b) => b.name.toLowerCase() === battleName.toLowerCase()
+          );
+
           if (!battle) {
             setAdditionalOutput([`Battle "${battleName}" not found`]);
             return;
           }
-          
+
           setAdditionalOutput([`Joining battle "${battleName}" (UI Only)`]);
           setTimeout(() => navigate(`/battle/${battleName}`), 1000);
-        }
-        else {
+        } else {
           setAdditionalOutput([
             `Unknown command: ${command}`,
-            "Type /help to see available commands"
+            "Type /help to see available commands",
           ]);
         }
     }
   };
 
   const handleKeyPress = async (e) => {
-    if (e.key === 'Enter' && terminalText.trim()) {
+    if (e.key === "Enter" && terminalText.trim()) {
       await handleCommand(terminalText.trim());
-      setTerminalText('');
+      setTerminalText("");
     }
   };
 
@@ -122,7 +124,7 @@ const Home = () => {
   };
 
   const handleQuickBattle = () => {
-    navigate('/battle/quick-match');
+    navigate("/battle/quick-match");
   };
 
   const handleCreateBattle = () => {
@@ -133,7 +135,8 @@ const Home = () => {
 
   const handleJoinRandom = () => {
     if (mockBattles.length > 0) {
-      const randomBattle = mockBattles[Math.floor(Math.random() * mockBattles.length)];
+      const randomBattle =
+        mockBattles[Math.floor(Math.random() * mockBattles.length)];
       setAdditionalOutput([`Joining battle "${randomBattle.name}" (UI Only)`]);
       setTimeout(() => navigate(`/battle/${randomBattle.name}`), 1000);
     } else {
@@ -165,10 +168,12 @@ const Home = () => {
 
           {showPrompt && (
             <GameTerminal
-              welcomeMessage={!isExistingPlayer 
-                ? "Identify yourself, warrior..." 
-                : `Welcome back, ${playerName}. 
-                Type /help to view available commands.`}
+              welcomeMessage={
+                !isExistingPlayer
+                  ? "Identify yourself, warrior..."
+                  : `Welcome back, ${playerName}. 
+                Type /help to view available commands.`
+              }
               isTyping={isTyping}
               terminalText={terminalText}
               handleChange={handleChange}
@@ -176,25 +181,6 @@ const Home = () => {
               additionalOutput={additionalOutput}
             />
           )}
-          
-          {/* Quick action buttons */}
-          <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center space-y-3 px-4 z-30">
-            <CustomButton 
-              title="Quick Battle" 
-              handleClick={handleQuickBattle}
-              restStyles="w-full bg-red-900/50 hover:bg-red-700/70 border border-red-500/50 text-red-300"
-            />
-            <CustomButton 
-              title="Create Battle" 
-              handleClick={handleCreateBattle}
-              restStyles="w-full bg-blue-900/50 hover:bg-blue-700/70 border border-blue-500/50 text-blue-300"
-            />
-            <CustomButton 
-              title="Join Random" 
-              handleClick={handleJoinRandom}
-              restStyles="w-full bg-green-900/50 hover:bg-green-700/70 border border-green-500/50 text-green-300"
-            />
-          </div>
         </div>
       </div>
 
