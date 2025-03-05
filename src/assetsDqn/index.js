@@ -38,8 +38,6 @@ export const allNfts = [
   { id: '4861', image: nft4861, name: 'Crimson Reaper' },
 ];
 
-// Use attack image as alert icon temporarily
-export const alertIcon = attackImage;
 
 // Export individual assets
 export {

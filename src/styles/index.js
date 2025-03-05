@@ -85,16 +85,19 @@ const styles = {
 
   // common
   flexCenter: 'flex items-center justify-center',
-  flexEnd: 'flex justify-end items-end',
+  flexEnd: 'flex justify-end items-end mr-10',
   flexBetween: 'flex justify-between items-center',
 
   // alert
-  info: 'text-blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800',
-  success: 'text-green-700 bg-green-100 dark:bg-green-200 dark:text-green-800',
-  failure: 'text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800',
+  info: 'text-blue-100 bg-blue-900/80 border-l-4 border-blue-500 dark:bg-blue-800/80 dark:text-blue-100',
+  success: 'text-green-100 bg-green-900/80 border-l-4 border-green-500 dark:bg-green-800/80 dark:text-green-100',
+  failure: 'text-red-100 bg-red-900/80 border-l-4 border-red-500 dark:bg-red-800/80 dark:text-red-100',
   alertContainer: 'absolute z-10 top-5 left-0 right-0',
-  alertWrapper: 'p-4 rounded-lg font-rajdhani font-semibold text-lg ',
+  alertWrapper: 'p-4 rounded-md font-rajdhani font-semibold text-lg shadow-lg shadow-red-500/20 backdrop-blur-sm border border-red-500/30',
   alertIcon: 'flex-shrink-0 inline w-6 h-6 mr-2',
+  
+  // cyberpunk alert styles
+  cyberpunk: 'text-red-100 bg-gradient-to-r from-red-900/80 to-purple-900/80 border-l-4 border-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)] animate-pulse',
 
   // modal
   modalText: 'font-rajdhani font-bold text-3xl text-white mb-6 text-center',
