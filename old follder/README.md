@@ -89,14 +89,6 @@ The game uses Socket.IO integrated directly into Next.js API routes to handle re
 
 The Socket.IO server is initialized in the `/api/socket.js` file, which sets up all the game logic and event handlers. The client connects to this server through the Socket.IO client library.
 
-### WebSocket Configuration
-
-The game uses WebSockets for real-time communication. The following configurations are made to ensure proper WebSocket functionality:
-
-1. The API route has `bodyParser` disabled to allow WebSocket connections
-2. The Next.js config includes a `webSocketServerFactory` to handle WebSocket upgrades
-3. The Socket.IO server is configured with the correct path and CORS settings
-
 ## Environment Variables
 
 No environment variables are required since the Socket.IO server is integrated into the Next.js application. The client and server communicate through the same origin.
