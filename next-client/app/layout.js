@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { Rajdhani } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,6 +12,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const rajdhani = Rajdhani({
+  weight: ['300', '400', '500', '600', '700'],
+  variable: "--font-rajdhani",
+  subsets: ["latin"],
+});
+
 export const metadata = {
   title: "6 six 6",
   description: "The Devil's Gamble",
@@ -20,10 +27,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${rajdhani.variable} antialiased`}
       >
-        {children}
+          {children}
       </body>
     </html>
   );
 }
+

@@ -9,8 +9,14 @@ const GameTerminal = ({
 }) => {
   const [cursorVisible, setCursorVisible] = useState(true);
   const [commandHistory, setCommandHistory] = useState([]);
+  const [sessionTime, setSessionTime] = useState('');
   const terminalRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Initialize session time on client-side only
+  useEffect(() => {
+    setSessionTime(new Date().toLocaleTimeString());
+  }, []);
 
   // Cursor blink
   useEffect(() => {
@@ -53,22 +59,22 @@ const GameTerminal = ({
   };
 
   return (
-    <div className="absolute inset-0 flex items-center justify-start pl-8">
+    <div className="w-full h-full max-w-3xl mx-auto">
       <div 
-        className="w-[80%] max-w-3xl bg-black/90 rounded-lg border border-red-500/30 p-6 font-mono cursor-text"
+        className="bg-black/90 rounded-lg border border-red-500/30 p-4 md:p-6 font-mono cursor-text shadow-lg shadow-red-500/10 h-full flex flex-col"
         onClick={handleTerminalClick}
       >
         <div className="text-red-500/70 text-sm pb-4 border-b border-red-500/20">
-          [Terminal Session - {new Date().toLocaleTimeString()}]
+          [Terminal Session - {sessionTime}]
         </div>
 
         <div 
           ref={terminalRef}
-          className="mt-4 h-[35vh] overflow-y-auto scrollbar-hide"
+          className="mt-4 flex-grow overflow-y-auto scrollbar-hide"
           style={{ msOverflowStyle: 'none', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
         >
-          <div className="flex">
-            <span className="text-red-500 w-[120px]">[System]: </span>
+          <div className="grid grid-cols-[120px_1fr] gap-4">
+            <span className="text-red-500 flex-shrink-0">[System]: </span>
             <span className="text-red-300">{welcomeMessage}</span>
           </div>
 
@@ -76,14 +82,14 @@ const GameTerminal = ({
             {commandHistory.map((entry, index) => (
               <div key={index}>
                 {entry.type === 'command' ? (
-                  <div className="flex">
-                    <span className="text-red-500 w-[120px]">root@6six6:~$</span>
-                    <span className="text-red-400">{entry.content}</span>
+                  <div className="grid grid-cols-[120px_1fr] gap-4">
+                    <span className="text-red-500 flex-shrink-0">root@6six6:~$&nbsp;</span>
+                    <span className="text-red-400 break-words">{entry.content}</span>
                   </div>
                 ) : (
-                  <div className="flex">
-                    <span className="text-red-500 w-[120px]">[System]: </span>
-                    <div className="text-red-300 whitespace-pre-line">
+                  <div className="grid grid-cols-[120px_1fr] gap-4">
+                    <span className="text-red-500 flex-shrink-0">[System]: </span>
+                    <div className="text-red-300 break-words whitespace-pre-line">
                       {entry.content.join('\n')}
                     </div>
                   </div>
@@ -92,9 +98,9 @@ const GameTerminal = ({
             ))}
           </div>
 
-          <div className="flex items-center mt-4">
-            <span className="text-red-500 w-[120px]">root@6six6:~$</span>
-            <div className="flex-1 relative">
+          <div className="grid grid-cols-[120px_1fr] gap-4 mt-4 items-center">
+            <span className="text-red-500 flex-shrink-0">root@6six6:~$&nbsp;</span>
+            <div className="relative">
               <span className="text-red-400">
                 {terminalText}
                 <span className={`inline-block w-2.5 h-5 bg-red-500 ml-0.5 align-middle 

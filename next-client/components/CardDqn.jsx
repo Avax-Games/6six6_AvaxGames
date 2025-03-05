@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 
 import styles from '../styles';
-import { cardTemplate, getPlayerNfts } from '../assetsDqn';
+import { cardTemplate, getPlayerNfts } from '../assets/index';
 
 const CardDqn = ({ card, title, restStyles, cardRef, playerTwo }) => {
   const [nft, setNft] = useState(null);

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import styles from '../styles';
-import { attackImage } from '../assetsDqn';
-import { defenseImage } from '../assetsDqn';
+import { attackImage } from '../assets/index';
+import { defenseImage } from '../assets/index';
 
 const Alert = ({ type, message }) => {
   // Always use cyberpunk style for a reddish cyberpunk theme
