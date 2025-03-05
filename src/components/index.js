@@ -1,4 +1,5 @@
 import Alert from './Alert';
+import ActionButton from './ActionButton';
 import PlayerInfo from './PlayerInfo';
 import CustomInput from './CustomInput';
 import CustomButton from './CustomButton';
@@ -9,6 +10,7 @@ import CardDqn from './CardDqn';
 
 export {
   Alert,
+  ActionButton,
   PlayerInfo,
   CustomInput,
   CustomButton,

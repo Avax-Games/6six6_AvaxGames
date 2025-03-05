@@ -5,6 +5,7 @@ import {
   CircularText,
   LetterGlitch,
   GameTerminal,
+  CustomButton
 } from "../components";
 import styles from "../styles";
 
@@ -120,6 +121,26 @@ const Home = () => {
     setTimeout(() => setIsTyping(false), 500);
   };
 
+  const handleQuickBattle = () => {
+    navigate('/battle/quick-match');
+  };
+
+  const handleCreateBattle = () => {
+    const battleName = `Battle-${Math.floor(Math.random() * 1000)}`;
+    setAdditionalOutput([`Creating battle "${battleName}" (UI Only)`]);
+    setTimeout(() => navigate(`/battle/${battleName}`), 1000);
+  };
+
+  const handleJoinRandom = () => {
+    if (mockBattles.length > 0) {
+      const randomBattle = mockBattles[Math.floor(Math.random() * mockBattles.length)];
+      setAdditionalOutput([`Joining battle "${randomBattle.name}" (UI Only)`]);
+      setTimeout(() => navigate(`/battle/${randomBattle.name}`), 1000);
+    } else {
+      setAdditionalOutput(["No battles available to join"]);
+    }
+  };
+
   return (
     <div className={`${styles.hocContainer} relative min-h-screen bg-black`}>
       <div
@@ -155,6 +176,25 @@ const Home = () => {
               additionalOutput={additionalOutput}
             />
           )}
+          
+          {/* Quick action buttons */}
+          <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center space-y-3 px-4 z-30">
+            <CustomButton 
+              title="Quick Battle" 
+              handleClick={handleQuickBattle}
+              restStyles="w-full bg-red-900/50 hover:bg-red-700/70 border border-red-500/50 text-red-300"
+            />
+            <CustomButton 
+              title="Create Battle" 
+              handleClick={handleCreateBattle}
+              restStyles="w-full bg-blue-900/50 hover:bg-blue-700/70 border border-blue-500/50 text-blue-300"
+            />
+            <CustomButton 
+              title="Join Random" 
+              handleClick={handleJoinRandom}
+              restStyles="w-full bg-green-900/50 hover:bg-green-700/70 border border-green-500/50 text-green-300"
+            />
+          </div>
         </div>
       </div>
 

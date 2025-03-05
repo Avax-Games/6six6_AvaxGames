@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Terminal } from 'lucide-react';
 
 import styles from '../styles/index.js';
-import { Alert, CardDqn, PlayerInfo, LetterGlitch, GameTerminal } from '../components/index.js';
+import { ActionButton, Alert, CardDqn, PlayerInfo, LetterGlitch, GameTerminal } from '../components/index.js';
 import { attackImage as attack, attackSound, defenseImage as defense, defenseSound } from '../assetsDqn/index.js';
 import { playAudio } from '../utils/animation.js';
 
@@ -151,7 +151,7 @@ const Battle = () => {
               </div>
 
               {/* Action buttons */}
-              {/* <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center">
                 <ActionButton
                   imgUrl={defense}
                   handleClick={() => makeAMove(2)}
@@ -162,7 +162,7 @@ const Battle = () => {
                   handleClick={() => makeAMove(1)}
                   restStyles="ml-2 mt-2 hover:border-green-400 scale-90"
                 />
-              </div> */}
+              </div>
 
               {/* Player 1 card centered */}
               <div className="mt-0">
