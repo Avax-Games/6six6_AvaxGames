@@ -92,7 +92,7 @@ const styles = {
   info: 'text-blue-100 bg-blue-900/80 border-l-4 border-blue-500 dark:bg-blue-800/80 dark:text-blue-100',
   success: 'text-green-100 bg-green-900/80 border-l-4 border-green-500 dark:bg-green-800/80 dark:text-green-100',
   failure: 'text-red-100 bg-red-900/80 border-l-4 border-red-500 dark:bg-red-800/80 dark:text-red-100',
-  alertContainer: 'absolute z-10 top-10 left-0 right-10',
+  alertContainer: 'absolute z-10 top-10 right-0 left-10',
   alertWrapper: 'p-4 rounded-md font-rajdhani font-semibold text-lg shadow-lg shadow-red-500/20 backdrop-blur-sm border border-red-500/30',
   alertIcon: 'flex-shrink-0 inline w-6 h-6 mr-2',
   

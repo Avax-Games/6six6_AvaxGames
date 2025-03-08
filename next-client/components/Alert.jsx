@@ -16,7 +16,7 @@ const Alert = ({ type, message }) => {
   }
   
   return (
-    <div className={`${styles.alertContainer} ${styles.flexEnd}`}>
+    <div className={`${styles.alertContainer} ${styles.flexBetween}`}>
       <div className={`${styles.alertWrapper} ${styles[alertStyle]}`} role="alert">
         <div className="flex items-center">
           <img src={alertIcon} alt={type} className="w-8 h-8 mr-2" />
