@@ -7,6 +7,7 @@ import LetterGlitch from './LetterGlitch';
 import CircularText from './CircularText';
 import GameTerminal from './GameTerminal';
 import CardDqn from './CardDqn';
+import Loading from './Loading';
 
 export {
   Alert,
@@ -18,4 +19,5 @@ export {
   CircularText,
   GameTerminal,
   CardDqn,
+  Loading,
 };

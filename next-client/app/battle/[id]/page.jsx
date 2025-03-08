@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Terminal } from 'lucide-react';
 
@@ -10,7 +10,8 @@ import {
   PlayerInfo,
   LetterGlitch,
   GameTerminal,
-  CardDqn
+  CardDqn,
+  Loading
 } from '../../../components';
 
 import { 
@@ -47,6 +48,7 @@ export default function Battle() {
   const [terminalText, setTerminalText] = useState('');
   const [additionalOutput, setAdditionalOutput] = useState([]);
   const [showAlert, setShowAlert] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Get params from URL
   const params = useParams();
@@ -55,6 +57,21 @@ export default function Battle() {
   // Mock refs for cards
   const player1Ref = useRef();
   const player2Ref = useRef();
+
+  // Add useEffect to simulate loading and fix hydration issues
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500); // Slightly longer to appreciate the loader
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // If we're still loading, don't render the full component
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const makeAMove = (choice) => {
     // UI-only functionality

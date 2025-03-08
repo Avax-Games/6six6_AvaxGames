@@ -6,16 +6,19 @@ import { cardTemplate, getPlayerNfts } from '../assets/index';
 
 const CardDqn = ({ card, title, restStyles, cardRef, playerTwo }) => {
   const [nft, setNft] = useState(null);
+  const [isClient, setIsClient] = useState(false);
   
   // Use random NFTs for each player
   useEffect(() => {
+    setIsClient(true);
     // Get two different random NFTs for the two players
     const { player1Nft, player2Nft } = getPlayerNfts();
     // Assign the appropriate NFT based on which player this card belongs to
     setNft(playerTwo ? player2Nft : player1Nft);
   }, [playerTwo]);
 
-  if (!nft) return null;
+  // Don't render anything on the server to prevent hydration mismatch
+  if (!isClient || !nft) return null;
 
   return (
     <Tilt

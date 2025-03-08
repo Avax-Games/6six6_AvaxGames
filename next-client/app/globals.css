@@ -278,3 +278,12 @@ body {
 .custom-class {
   filter: drop-shadow(0 0 0.75rem rgba(255, 255, 255, 0.2));
 }
+
+@keyframes pulse-width {
+  0%, 100% { width: 0%; }
+  50% { width: 100%; }
+}
+
+.animate-pulse-width {
+  animation: pulse-width 2s ease-in-out infinite;
+}
