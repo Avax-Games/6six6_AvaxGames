@@ -19,7 +19,7 @@ const Alert = ({ type, message }) => {
     <div className={`${styles.alertContainer} ${styles.flexBetween}`}>
       <div className={`${styles.alertWrapper} ${styles[alertStyle]}`} role="alert">
         <div className="flex items-center">
-          <img src={alertIcon} alt={type} className="w-8 h-8 mr-2" />
+          {alertIcon && <img src={alertIcon} alt={type} className="w-8 h-8 mr-2" />}
           <span className="font-glitch tracking-wider mr-2">{message}</span>
           <div className="ml-2 h-3 w-3 rounded-full bg-red-500 animate-ping"></div>
         </div>
