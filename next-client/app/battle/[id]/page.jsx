@@ -168,12 +168,12 @@ export default function Battle() {
               {/* Action buttons */}
               <div className="flex items-center justify-center">
                 <ActionButton
-                  imgUrl={defense}
+                  imgUrl={defense.src || defense}
                   handleClick={() => makeAMove(2)}
                   restStyles="mr-2 mt-2 hover:border-red-600 scale-90"
                 />
                 <ActionButton
-                  imgUrl={attack}
+                  imgUrl={attack.src || attack}
                   handleClick={() => makeAMove(1)}
                   restStyles="ml-2 mt-2 hover:border-green-400 scale-90"
                 />

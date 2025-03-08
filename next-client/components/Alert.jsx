@@ -10,9 +10,9 @@ const Alert = ({ type, message }) => {
   let alertIcon;
 
   if (message.includes("attack")) {
-    alertIcon = attackImage;
+    alertIcon = attackImage.src || attackImage;
   } else if (message.includes("defense")) {
-    alertIcon = defenseImage;
+    alertIcon = defenseImage.src || defenseImage;
   }
   
   return (

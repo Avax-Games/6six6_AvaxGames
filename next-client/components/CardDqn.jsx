@@ -32,7 +32,7 @@ const CardDqn = ({ card, title, restStyles, cardRef, playerTwo }) => {
       <div ref={cardRef} className={`${styles.cardDqnContainer} ${restStyles || ''}`}>
         {/* Card Template Background */}
         <img 
-          src={cardTemplate} 
+          src={cardTemplate.src || cardTemplate} 
           alt="card_template" 
           className={`${styles.cardDqnImg} absolute inset-0 z-10`} 
         />
@@ -40,7 +40,7 @@ const CardDqn = ({ card, title, restStyles, cardRef, playerTwo }) => {
         {/* NFT Image in the center red box */}
         <div className={`${styles.cardDqnImageContainer}`}>
           <img 
-            src={nft.image} 
+            src={nft.image.src || nft.image} 
             alt={nft.name} 
             className="w-full h-full object-cover object-center"
           />
