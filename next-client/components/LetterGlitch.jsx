@@ -153,11 +153,14 @@ const LetterGlitch = ({
     const { columns, rows } = calculateGrid(rect.width, rect.height);
     initializeLetters(columns, rows);
 
-    drawLetters(); // Ensure letters are drawn after resizing
+    // Only call drawLetters if the canvas and context exist
+    if (canvas && context.current) {
+      drawLetters(); // Ensure letters are drawn after resizing
+    }
   };
 
   const drawLetters = () => {
-    if (!context.current || letters.current.length === 0) return;
+    if (!context.current || letters.current.length === 0 || !canvasRef.current) return;
     const ctx = context.current;
     const { width, height } = canvasRef.current.getBoundingClientRect();
     ctx.clearRect(0, 0, width, height);
@@ -194,6 +197,8 @@ const LetterGlitch = ({
   };
 
   const handleSmoothTransitions = () => {
+    if (!letters.current || letters.current.length === 0) return;
+    
     let needsRedraw = false;
     letters.current.forEach((letter) => {
       if (letter.colorProgress < 1) {
@@ -219,6 +224,12 @@ const LetterGlitch = ({
   };
 
   const animate = () => {
+    if (!canvasRef.current || !context.current) {
+      // If canvas or context is not available, try again in the next frame
+      animationRef.current = requestAnimationFrame(animate);
+      return;
+    }
+
     const now = Date.now();
     if (now - lastGlitchTime.current >= glitchSpeed) {
       updateLetters();
