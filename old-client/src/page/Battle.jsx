@@ -48,7 +48,7 @@ const Battle = () => {
     setShowAlert({
       status: true,
       type: 'info',
-      message: `Initiating ${choice === 1 ? 'attack' : 'defense'} (UI Only)`,
+      message: `Initiating ${choice === 1 ? 'attack' : 'defense'} `,
     });
     
     // Clear alert after 3 seconds
@@ -77,7 +77,7 @@ const Battle = () => {
         setShowAlert({ 
           status: true, 
           type: 'info', 
-          message: `You're quitting the ${battleName || 'battle'} (UI Only)` 
+          message: `You're quitting the ${battleName || 'battle'} ` 
         });
         
         // Clear alert after 3 seconds

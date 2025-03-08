@@ -38,11 +38,11 @@ const Home = () => {
   const handleCommand = async (command) => {
     const cmd = command.toLowerCase();
 
-    // Handle new player registration (UI only)
+    // Handle new player registration 
     if (!isExistingPlayer) {
       setPlayerName(command);
       setAdditionalOutput([
-        `Welcome, ${command}! Registration successful (UI Only)`,
+        `Welcome, ${command}! Registration successful `,
       ]);
       setTimeout(() => setIsExistingPlayer(true), 2000);
       return;
@@ -65,7 +65,7 @@ const Home = () => {
 
       case "/show":
         setAdditionalOutput([
-          "Available Battles (UI Only):",
+          "Available Battles :",
           ...mockBattles.map((battle) => `- ${battle.name}`),
         ]);
         break;
@@ -78,7 +78,7 @@ const Home = () => {
             return;
           }
 
-          setAdditionalOutput([`Creating battle "${battleName}" (UI Only)`]);
+          setAdditionalOutput([`Creating battle "${battleName}" `]);
           setWaitBattle(true);
 
           // Add the new battle to mock battles for UI demo
@@ -99,7 +99,7 @@ const Home = () => {
             return;
           }
 
-          setAdditionalOutput([`Joining battle "${battleName}" (UI Only)`]);
+          setAdditionalOutput([`Joining battle "${battleName}" `]);
           setTimeout(() => navigate(`/battle/${battleName}`), 1000);
         } else {
           setAdditionalOutput([
@@ -129,7 +129,7 @@ const Home = () => {
 
   const handleCreateBattle = () => {
     const battleName = `Battle-${Math.floor(Math.random() * 1000)}`;
-    setAdditionalOutput([`Creating battle "${battleName}" (UI Only)`]);
+    setAdditionalOutput([`Creating battle "${battleName}" `]);
     setTimeout(() => navigate(`/battle/${battleName}`), 1000);
   };
 
@@ -137,7 +137,7 @@ const Home = () => {
     if (mockBattles.length > 0) {
       const randomBattle =
         mockBattles[Math.floor(Math.random() * mockBattles.length)];
-      setAdditionalOutput([`Joining battle "${randomBattle.name}" (UI Only)`]);
+      setAdditionalOutput([`Joining battle "${randomBattle.name}" `]);
       setTimeout(() => navigate(`/battle/${randomBattle.name}`), 1000);
     } else {
       setAdditionalOutput(["No battles available to join"]);

@@ -80,7 +80,7 @@ export default function Battle() {
     setShowAlert({
       status: true,
       type: 'info',
-      message: `Initiating ${choice === 1 ? 'attack' : 'defense'} (UI Only)`,
+      message: `Initiating ${choice === 1 ? 'attack' : 'defense'} `,
     });
     
     // Clear alert after 3 seconds
@@ -109,7 +109,7 @@ export default function Battle() {
         setShowAlert({ 
           status: true, 
           type: 'info', 
-          message: `You're quitting the ${battleName || 'battle'} (UI Only)` 
+          message: `You're quitting the ${battleName || 'battle'} ` 
         });
         
         // Clear alert after 3 seconds
@@ -169,7 +169,7 @@ export default function Battle() {
             <div className="flex flex-col items-center relative">
               {/* Player 2 health bar positioned to the left of center */}
               <div className="absolute top-[20%] right-[100%] mr-4">
-                <PlayerInfo player={player2} mt />
+                <PlayerInfo player={player2} />
               </div>
               
               {/* Player 2 card centered */}
@@ -229,7 +229,7 @@ export default function Battle() {
       </div>
 
       {showTerminal && (
-        <div className="absolute right-12 top-[40%] -translate-y-1/2 w-[400px] h-[500px] z-20">
+        <div className="absolute right-15 top-[35%] -translate-y-1/2 w-[400px] h-[500px] z-20">
           <GameTerminal
             welcomeMessage="Battle Terminal - Type /help for commands"
             terminalText={terminalText}
